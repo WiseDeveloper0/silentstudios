@@ -873,6 +873,14 @@ section { position: relative; }
 .choice b { font-size: 16px; }
 .choice span { font-size: 13px; color: var(--text-muted); }
 .choice svg { width: 22px; height: 22px; }
+.choice-badge {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px;
+  border: 1px solid var(--border-strong); color: var(--text-faint);
+}
+.choice-badge.first { background: var(--cyan-300); border-color: var(--cyan-300); color: var(--burgundy-900); }
+.choice b, .choice span:not(.choice-badge) { padding-right: 4px; }
 .wl-actions { display: flex; gap: 10px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
 .btn-chunky {
   height: 52px;

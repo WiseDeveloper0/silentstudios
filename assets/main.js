@@ -396,6 +396,10 @@ async function submitTo(endpoint, data, storageKey, { allowDemo = true } = {}) {
         "ss_waitlist"
       );
       $("#wl-done-email", root).textContent = state.email;
+      const doneText = $("#wl-done-text", root);
+      if (doneText) doneText.textContent = state.device === "android"
+        ? "as soon as EpistleChat arrives on Android. iOS launches first, so hang tight!"
+        : "as soon as EpistleChat is available to pre-download on the App Store.";
       go(2);
       confetti();
     } catch (e) {

@@ -59,24 +59,18 @@
 
             <!-- Step 2: device -->
             <div class="wl-step" role="group" aria-labelledby="wl-device-title">
-              <h3 id="wl-device-title">Where will you use it?</h3>
-              <p>So we let you know about the right version.</p>
+              <h3 id="wl-device-title">Which phone do you use?</h3>
+              <p>EpistleChat is launching on iOS first, with Android to follow.</p>
               <div class="choices">
-                <button class="choice" type="button" data-value="iphone" aria-pressed="false">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
-                  <b>iPhone</b><span>The main event</span>
-                </button>
-                <button class="choice" type="button" data-value="ipad" aria-pressed="false">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
-                  <b>iPad</b><span>Bigger letters</span>
-                </button>
-                <button class="choice" type="button" data-value="mac" aria-pressed="false">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
-                  <b>Mac</b><span>At your desk</span>
+                <button class="choice" type="button" data-value="ios" aria-pressed="false">
+                  <span class="choice-badge first">Launches first</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M10.5 4.5h3"/></svg>
+                  <b>iOS</b><span>iPhone, on the App Store</span>
                 </button>
                 <button class="choice" type="button" data-value="android" aria-pressed="false">
+                  <span class="choice-badge">Coming later</span>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 10a7 7 0 0 1 14 0v7H5Z"/><path d="M7 4l1.5 2.5M17 4l-1.5 2.5"/><circle cx="9.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="14.5" cy="11.5" r=".6" fill="currentColor"/></svg>
-                  <b>Android</b><span>Tell me if it comes</span>
+                  <b>Android</b><span>We'll tell you when it's ready</span>
                 </button>
               </div>
               <p class="form-status err" id="wl-error-2" role="alert"></p>
@@ -90,7 +84,7 @@
             <div class="wl-step" aria-live="polite">
               <div class="success-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
               <h3>You're on the list!</h3>
-              <p>We'll email <b id="wl-done-email"></b> as soon as EpistleChat is available to pre-download.</p>
+              <p>We'll email <b id="wl-done-email"></b> <span id="wl-done-text">as soon as EpistleChat is available to pre-download on the App Store.</span></p>
               <a class="btn btn-ghost btn-sm" href="index.html" style="justify-self:start">Back to SilentStudios</a>
             </div>
 
