@@ -1,6 +1,5 @@
 {
   "contact_email": "support@silentstudios.online",
-  "waitlist_endpoint": "",
-  "contact_endpoint": "",
+  "waitlist_endpoint": "https://formspree.io/f/xljbweqa",
   "footer_tagline": "Made quietly."
 }
