@@ -1,0 +1,54 @@
+{
+  "faqs": [
+    {
+      "category": "waitlist",
+      "question": "How do I join the EpistleChat waitlist?",
+      "answer": "Head to the [EpistleChat page](epistlechat.html#join), enter your email and pick your device. That's it. We'll email you when it's ready to pre-download."
+    },
+    {
+      "category": "waitlist",
+      "question": "When will I hear from you?",
+      "answer": "We'll only email you when there's real news: when pre-download opens on the App Store, and on launch day. No newsletters you didn't ask for."
+    },
+    {
+      "category": "waitlist",
+      "question": "How do I leave the waitlist?",
+      "answer": "Every email we send has an unsubscribe link. You can also email hello@silentstudios.com and we'll remove you right away."
+    },
+    {
+      "category": "epistle",
+      "question": "What is EpistleChat?",
+      "answer": "EpistleChat is our upcoming app that brings letters and chat together. Send letters delivered as wax-sealed stationery, a museum exhibit, a royal scroll, a time capsule, a message in a bottle or a paper plane, and chat, send voice notes and call your people in the same place."
+    },
+    {
+      "category": "epistle",
+      "question": "Which devices will EpistleChat support?",
+      "answer": "EpistleChat launches first on iPhone through the App Store. Tell us on the waitlist if you'd like it on iPad, Mac or Android, because that helps us decide what comes next."
+    },
+    {
+      "category": "epistle",
+      "question": "Will EpistleChat be free?",
+      "answer": "We'll share pricing details closer to launch. Waitlist members will hear first."
+    },
+    {
+      "category": "account",
+      "question": "What do you do with my email?",
+      "answer": "We use it only to tell you about EpistleChat's availability. We never sell or share it with advertisers."
+    },
+    {
+      "category": "account",
+      "question": "Is my data private?",
+      "answer": "Privacy is one of our core values. We collect only what's needed to make our apps work, and we'll publish a clear privacy policy before launch."
+    },
+    {
+      "category": "studio",
+      "question": "What is Kraylus?",
+      "answer": "Kraylus is our next app. It's still in the concept stage and development hasn't started yet. Follow along on the [Kraylus page](kraylus.html)."
+    },
+    {
+      "category": "studio",
+      "question": "How do I contact SilentStudios?",
+      "answer": "Use the [contact form](index.html#contact) or email hello@silentstudios.com. We usually reply within two working days."
+    }
+  ]
+}

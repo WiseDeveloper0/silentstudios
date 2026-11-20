@@ -1,0 +1,146 @@
+# Pages CMS configuration — edit the website at https://app.pagescms.org
+# Each entry below shows up as a page in the editor's sidebar.
+
+media:
+  input: assets
+  output: /assets
+
+content:
+  - name: site
+    label: Site settings
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: contact_email
+        label: Contact email
+        type: string
+        description: Shown in the Contact section and Support answers.
+      - name: waitlist_endpoint
+        label: Waitlist form link (Formspree)
+        type: string
+        description: Paste your Formspree form URL, e.g. https://formspree.io/f/abcdefg. Leave empty for demo mode.
+      - name: contact_endpoint
+        label: Contact form link (Formspree)
+        type: string
+        description: A second Formspree form URL for contact messages.
+      - name: footer_tagline
+        label: Footer tagline
+        type: string
+
+  - name: home
+    label: Home page
+    type: file
+    path: content/home.json
+    format: json
+    fields:
+      - { name: hero_badge, label: "Hero: little badge text", type: string }
+      - { name: hero_line1, label: "Hero headline: line 1", type: string }
+      - { name: hero_line2_italic, label: "Hero headline: line 2 (italic gradient word)", type: string }
+      - { name: hero_line2, label: "Hero headline: line 2 (rest)", type: string }
+      - { name: hero_line3, label: "Hero headline: line 3", type: string }
+      - { name: hero_intro, label: "Hero: intro paragraph", type: text }
+      - { name: apps_intro, label: "Our apps: intro", type: text }
+      - { name: epistle_status, label: "EpistleChat card: status", type: string }
+      - { name: epistle_card_text, label: "EpistleChat card: description", type: text }
+      - { name: kraylus_status, label: "Kraylus card: status", type: string }
+      - { name: kraylus_card_text, label: "Kraylus card: description", type: text }
+      - name: statement
+        label: Big statement
+        type: text
+        description: "Wrap words in *stars* for pink, or _underscores_ for cyan."
+      - { name: about_intro, label: "About us: intro", type: text }
+      - name: values
+        label: "About us: values"
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+      - name: stats
+        label: "About us: stats row"
+        type: object
+        list: true
+        fields:
+          - { name: number, label: "Number (e.g. 2, 100%, ∞)", type: string }
+          - { name: label, label: Label, type: string }
+      - { name: contact_intro, label: "Contact: intro", type: text }
+
+  - name: epistlechat
+    label: EpistleChat page
+    type: file
+    path: content/epistlechat.json
+    format: json
+    fields:
+      - { name: status, label: "Top: status pill", type: string }
+      - { name: intro, label: "Top: intro paragraph", type: text }
+      - { name: waitlist_title, label: "Waitlist: title", type: string }
+      - { name: waitlist_text, label: "Waitlist: text", type: text }
+      - { name: hero_screenshot, label: "Top: phone screenshot", type: image }
+      - { name: letters_intro, label: "Letters section: intro", type: text }
+      - { name: letters_screenshot, label: "Letters section: screenshot", type: image }
+      - name: styles
+        label: "Letters section: delivery styles"
+        type: object
+        list: true
+        fields:
+          - { name: emoji, label: Emoji, type: string }
+          - { name: name, label: Name, type: string }
+          - { name: text, label: Description, type: text }
+          - { name: color, label: "Colour (hex, e.g. #a99bf0)", type: string }
+      - { name: chat_intro, label: "Chat section: intro", type: text }
+      - { name: chats_screenshot, label: "Chat section: left screenshot", type: image }
+      - { name: conversation_screenshot, label: "Chat section: right screenshot", type: image }
+      - name: features
+        label: Features
+        type: object
+        list: true
+        fields:
+          - name: icon
+            label: Icon
+            type: select
+            options:
+              values: [mailbox, pip, check, people, mic, music, heart, lock, star, clock]
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+      - { name: more_text, label: "Closing line", type: string }
+
+  - name: kraylus
+    label: Kraylus page
+    type: file
+    path: content/kraylus.json
+    format: json
+    fields:
+      - { name: status, label: Status pill, type: string }
+      - { name: intro, label: Intro paragraph, type: text }
+      - name: roadmap
+        label: Roadmap
+        type: object
+        list: true
+        fields:
+          - { name: when, label: "When (e.g. Now, Next)", type: string }
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+          - { name: done, label: "Done?", type: boolean }
+
+  - name: support
+    label: Support FAQs
+    type: file
+    path: content/support.json
+    format: json
+    fields:
+      - name: faqs
+        label: Questions
+        type: object
+        list: true
+        fields:
+          - name: category
+            label: Topic
+            type: select
+            options:
+              values: [epistle, waitlist, account, studio]
+          - { name: question, label: Question, type: string }
+          - name: answer
+            label: Answer
+            type: text
+            description: "Links: [link text](page.html)"

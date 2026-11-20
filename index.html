@@ -11,8 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Sans:wght@500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <script>document.documentElement.classList.add("cms-loading");setTimeout(function(){document.documentElement.classList.remove("cms-loading")},2500)</script>
 </head>
-<body>
+<body data-page="home">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -38,15 +39,15 @@
 
       <div class="container hero-inner">
         <a class="hero-badge fade-up" href="epistlechat.html#join">
-          <b>NEW</b> EpistleChat is coming to the App Store <span aria-hidden="true">→</span>
+          <b>NEW</b> <span data-c="home.hero_badge">EpistleChat is coming to the App Store</span> <span aria-hidden="true">→</span>
         </a>
         <h1 class="display">
-          <span class="line"><span>Quietly</span></span>
-          <span class="line"><span><em class="gradient-text">crafted</em> apps</span></span>
-          <span class="line"><span>that speak up.</span></span>
+          <span class="line"><span data-c="home.hero_line1">Quietly</span></span>
+          <span class="line"><span><em class="gradient-text" data-c="home.hero_line2_italic">crafted</em> <span data-c="home.hero_line2">apps</span></span></span>
+          <span class="line"><span data-c="home.hero_line3">that speak up.</span></span>
         </h1>
         <div class="hero-sub">
-          <p class="lede fade-up d1">SilentStudios is an independent studio making calm, beautifully built software. Less noise, more meaning, and the details you feel before you notice them.</p>
+          <p class="lede fade-up d1" data-c="home.hero_intro">SilentStudios is an independent studio making calm, beautifully built software. Less noise, more meaning, and the details you feel before you notice them.</p>
           <div class="hero-actions fade-up d2">
             <a class="btn btn-primary" href="epistlechat.html#join" data-magnetic>Get early access <span class="arrow" aria-hidden="true">→</span></a>
             <a class="btn btn-ghost" href="#work" data-magnetic>See our apps</a>
@@ -72,7 +73,7 @@
             <span class="eyebrow reveal">Our apps</span>
             <h2 class="section-title reveal" style="--delay:.08s">Two ideas.<br /><span class="serif">One obsession.</span></h2>
           </div>
-          <p class="lede reveal" style="--delay:.16s">We'd rather ship one thing people love than ten things they forget. Here's what's on our desk right now.</p>
+          <p class="lede reveal" style="--delay:.16s" data-c="home.apps_intro">We'd rather ship one thing people love than ten things they forget. Here's what's on our desk right now.</p>
         </div>
 
         <div class="products">
@@ -81,10 +82,10 @@
               <div class="app-icon epistle" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#1f0711" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4 4v-4h0A2 2 0 0 1 4 14Z"/><path d="m7.5 8 4.5 3 4.5-3"/></svg>
               </div>
-              <span class="status"><i></i> Waitlist open</span>
+              <span class="status"><i></i> <span data-c="home.epistle_status">Waitlist open</span></span>
             </div>
             <h3>EpistleChat</h3>
-            <p>Letters and chat in one app. Send words sealed in wax, framed like art or locked in a time capsule, coming soon to the App Store.</p>
+            <p data-c="home.epistle_card_text">Letters and chat in one app. Send words sealed in wax, framed like art or locked in a time capsule, coming soon to the App Store.</p>
             <a class="btn btn-primary btn-sm" href="epistlechat.html" data-magnetic>Explore EpistleChat <span class="arrow" aria-hidden="true">→</span></a>
             <div class="mock" aria-hidden="true">
               <div class="bubble them">Did my letter arrive? 💌</div>
@@ -99,10 +100,10 @@
               <div class="app-icon kraylus" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#1f0711" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9Z"/><path d="M12 3v18M4 7.5l16 9M20 7.5l-16 9"/></svg>
               </div>
-              <span class="status idle"><i></i> In concept</span>
+              <span class="status idle"><i></i> <span data-c="home.kraylus_status">In concept</span></span>
             </div>
             <h3>Kraylus</h3>
-            <p>Our next big idea. Still on the drawing board, and we're keeping it under wraps for now.</p>
+            <p data-c="home.kraylus_card_text">Our next big idea. Still on the drawing board, and we're keeping it under wraps for now.</p>
             <a class="btn btn-ghost btn-sm" href="kraylus.html" data-magnetic>Follow along <span class="arrow" aria-hidden="true">→</span></a>
             <div class="blueprint" aria-hidden="true">
               <div class="orb"><span class="dot"></span></div>
@@ -116,7 +117,7 @@
     <!-- ========== STATEMENT ========== -->
     <section class="statement">
       <div class="container">
-        <p>We believe the best technology is <span data-accent="accent">quiet.</span> It respects your attention, earns your trust, and <span data-accent="accent2">gets out of the way</span> so the people you care about can come through.</p>
+        <p data-c-rich="home.statement">We believe the best technology is <span data-accent="accent">quiet.</span> It respects your attention, earns your trust, and <span data-accent="accent2">gets out of the way</span> so the people you care about can come through.</p>
       </div>
     </section>
 
@@ -128,10 +129,10 @@
             <span class="eyebrow reveal">About us</span>
             <h2 class="section-title reveal" style="--delay:.08s">Small studio.<br /><span class="serif">Loud standards.</span></h2>
           </div>
-          <p class="lede reveal" style="--delay:.16s">SilentStudios is a small, independent team designing and building apps end to end. No investors to please and no ads to sell, just products we'd want on our own home screens.</p>
+          <p class="lede reveal" style="--delay:.16s" data-c="home.about_intro">SilentStudios is a small, independent team designing and building apps end to end. No investors to please and no ads to sell, just products we'd want on our own home screens.</p>
         </div>
 
-        <div class="about-grid">
+        <div class="about-grid" data-list="home.values">
           <article class="card value reveal">
             <span class="num">01</span>
             <h3>Craft over volume</h3>
@@ -149,7 +150,7 @@
           </article>
         </div>
 
-        <div class="stats reveal">
+        <div class="stats reveal" data-list="home.stats">
           <div class="stat"><b data-count="2">0</b><span>Apps in the works</span></div>
           <div class="stat"><b data-count="100" data-suffix="%">0</b><span>Independent</span></div>
           <div class="stat"><b>0</b><span>Ads, ever</span></div>
@@ -164,7 +165,7 @@
         <div>
           <span class="eyebrow reveal">Contact</span>
           <h2 class="section-title reveal" style="--delay:.08s">Say <span class="serif gradient-text">hello.</span></h2>
-          <p class="lede reveal" style="--delay:.16s">Press, partnerships, feedback or just a kind word. We read everything.</p>
+          <p class="lede reveal" style="--delay:.16s" data-c="home.contact_intro">Press, partnerships, feedback or just a kind word. We read everything.</p>
           <ul class="contact-list reveal" style="--delay:.22s">
             <li><a href="mailto:hello@silentstudios.com">hello@silentstudios.com <small>Email →</small></a></li>
             <li><a href="support.html">Help &amp; FAQs <small>Support →</small></a></li>
@@ -215,10 +216,11 @@
         </div>
       </div>
       <p class="footer-word" aria-hidden="true">SILENTSTUDIOS</p>
-      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span>Made quietly.</span></div>
+      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span data-c-tagline>Made quietly.</span></div>
     </div>
   </footer>
 
+  <script src="assets/content.js"></script>
   <script src="assets/main.js"></script>
 </body>
 </html>

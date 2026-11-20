@@ -1,0 +1,48 @@
+{
+  "hero_badge": "EpistleChat is coming to the App Store",
+  "hero_line1": "Quietly",
+  "hero_line2_italic": "crafted",
+  "hero_line2": "apps",
+  "hero_line3": "that speak up.",
+  "hero_intro": "SilentStudios is an independent studio making calm, beautifully built software. Less noise, more meaning, and the details you feel before you notice them.",
+  "apps_intro": "We'd rather ship one thing people love than ten things they forget. Here's what's on our desk right now.",
+  "epistle_status": "Waitlist open",
+  "epistle_card_text": "Letters and chat in one app. Send words sealed in wax, framed like art or locked in a time capsule, coming soon to the App Store.",
+  "kraylus_status": "In concept",
+  "kraylus_card_text": "Our next big idea. Still on the drawing board, and we're keeping it under wraps for now.",
+  "statement": "We believe the best technology is *quiet.* It respects your attention, earns your trust, and _gets out of the way_ so the people you care about can come through.",
+  "about_intro": "SilentStudios is a small, independent team designing and building apps end to end. No investors to please and no ads to sell, just products we'd want on our own home screens.",
+  "values": [
+    {
+      "title": "Craft over volume",
+      "text": "We sweat the spacing, the timing of every animation and the words on every button, because that's where trust is built."
+    },
+    {
+      "title": "Privacy by default",
+      "text": "Your conversations are yours. We collect what's needed to make the app work and nothing we'd be uncomfortable explaining."
+    },
+    {
+      "title": "Built in the open",
+      "text": "We share what we're making as we make it. Join the waitlist and you'll hear about it first, with no spam."
+    }
+  ],
+  "stats": [
+    {
+      "number": "2",
+      "label": "Apps in the works"
+    },
+    {
+      "number": "100%",
+      "label": "Independent"
+    },
+    {
+      "number": "0",
+      "label": "Ads, ever"
+    },
+    {
+      "number": "∞",
+      "label": "Cups of coffee"
+    }
+  ],
+  "contact_intro": "Press, partnerships, feedback or just a kind word. We read everything."
+}

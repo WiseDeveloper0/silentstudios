@@ -1,0 +1,83 @@
+{
+  "status": "Coming soon to the App Store",
+  "intro": "Letters and chat, together in one app. Send words that arrive sealed in wax, framed like art or tucked inside a time capsule, then keep the conversation going in a beautifully simple chat.",
+  "waitlist_title": "Be first in line ✉️",
+  "waitlist_text": "Drop your email and we'll ping you the moment EpistleChat is ready to pre-download on the App Store.",
+  "hero_screenshot": "assets/epistle/letters.webp",
+  "letters_intro": "Some things deserve more than a text bubble. Pick how your letter is delivered, and it shows up on the other side like a small event.",
+  "letters_screenshot": "assets/epistle/new-letter.webp",
+  "styles": [
+    {
+      "emoji": "✉️",
+      "name": "Letter",
+      "text": "Classic stationery, sealed with wax.",
+      "color": "#a99bf0"
+    },
+    {
+      "emoji": "🏛️",
+      "name": "Museum",
+      "text": "Your words, framed and exhibited like art.",
+      "color": "#e2b04a"
+    },
+    {
+      "emoji": "📜",
+      "name": "Royal Scroll",
+      "text": "A royal decree on rolled parchment.",
+      "color": "#d2455a"
+    },
+    {
+      "emoji": "⏳",
+      "name": "Time Capsule",
+      "text": "Sealed away until the day you choose.",
+      "color": "#4aa8e8"
+    },
+    {
+      "emoji": "🍾",
+      "name": "Message in a Bottle",
+      "text": "Corked, tossed to sea, and washed up at their feet.",
+      "color": "#3cc7b4"
+    },
+    {
+      "emoji": "✈️",
+      "name": "Paper Plane",
+      "text": "Folded, thrown, and looping straight to them.",
+      "color": "#f08a3c"
+    }
+  ],
+  "chat_intro": "A full messenger lives right next to your letters, with messages, communities, voice notes and calls in one calm space.",
+  "chats_screenshot": "assets/epistle/chats.webp",
+  "conversation_screenshot": "assets/epistle/conversation.webp",
+  "features": [
+    {
+      "icon": "mailbox",
+      "title": "Mailbox & Keepsakes",
+      "text": "Letters land in your mailbox. The ones you love get pinned to your Keepsakes wall, polaroid-style."
+    },
+    {
+      "icon": "pip",
+      "title": "Meet Pip",
+      "text": "A friendly capybara who gently nudges you when someone out there is wondering about you."
+    },
+    {
+      "icon": "check",
+      "title": "Know when it's opened",
+      "text": "Every sent letter shows when it was opened, so you know your words found their way."
+    },
+    {
+      "icon": "people",
+      "title": "Messages & Communities",
+      "text": "One-on-one chats, group chats and whole communities, all in one tidy inbox."
+    },
+    {
+      "icon": "mic",
+      "title": "Voice notes & calls",
+      "text": "Send a voice message, or jump on a voice or video call straight from the conversation."
+    },
+    {
+      "icon": "music",
+      "title": "Make it yours",
+      "text": "Custom chat wallpapers, a now-playing song on your profile and name styles that stand out."
+    }
+  ],
+  "more_text": "…and plenty more we're saving for launch day."
+}

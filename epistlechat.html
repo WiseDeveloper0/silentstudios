@@ -11,8 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Sans:wght@500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <script>document.documentElement.classList.add("cms-loading");setTimeout(function(){document.documentElement.classList.remove("cms-loading")},2500)</script>
 </head>
-<body>
+<body data-page="epistlechat">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -34,17 +35,17 @@
       <div class="glow" aria-hidden="true"></div>
       <div class="container epistle-layout">
         <div>
-          <span class="status fade-up"><i></i> Coming soon to the App Store</span>
+          <span class="status fade-up"><i></i> <span data-c="epistlechat.status">Coming soon to the App Store</span></span>
           <h1 class="display fade-up d1">Epistle<span class="serif gradient-text">Chat</span></h1>
-          <p class="lede fade-up d2">Letters and chat, together in one app. Send words that arrive sealed in wax, framed like art or tucked inside a time capsule, then keep the conversation going in a beautifully simple chat.</p>
+          <p class="lede fade-up d2" data-c="epistlechat.intro">Letters and chat, together in one app. Send words that arrive sealed in wax, framed like art or tucked inside a time capsule, then keep the conversation going in a beautifully simple chat.</p>
 
           <div class="card waitlist fade-up d3" id="join" data-waitlist style="margin-top:32px">
             <div class="wl-progress" aria-hidden="true"><span></span></div>
 
             <!-- Step 1: email -->
             <form class="wl-step active" id="wl-step-email" novalidate>
-              <h3>Be first in line ✉️</h3>
-              <p>Drop your email and we'll ping you the moment EpistleChat is ready to pre-download on the App Store.</p>
+              <h3 data-c="epistlechat.waitlist_title">Be first in line ✉️</h3>
+              <p data-c="epistlechat.waitlist_text">Drop your email and we'll ping you the moment EpistleChat is ready to pre-download on the App Store.</p>
               <div class="field">
                 <label for="wl-email">Email address</label>
                 <input class="input" id="wl-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
@@ -98,7 +99,7 @@
         </div>
 
         <div class="phone fade-up d2">
-          <div class="phone-screen"><div class="phone-notch" aria-hidden="true"></div><img src="assets/epistle/letters.webp" width="440" height="956" alt="EpistleChat Letters screen showing the Mailbox, Pip the capybara, a Keepsakes photo and sent letters" /></div>
+          <div class="phone-screen"><div class="phone-notch" aria-hidden="true"></div><img data-c-src="epistlechat.hero_screenshot" src="assets/epistle/letters.webp" width="440" height="956" alt="EpistleChat Letters screen showing the Mailbox, Pip the capybara, a Keepsakes photo and sent letters" /></div>
         </div>
       </div>
     </section>
@@ -111,11 +112,11 @@
             <span class="eyebrow reveal">Letters</span>
             <h2 class="section-title reveal" style="--delay:.08s">Choose how your<br /><span class="serif">words arrive.</span></h2>
           </div>
-          <p class="lede reveal" style="--delay:.16s">Some things deserve more than a text bubble. Pick how your letter is delivered, and it shows up on the other side like a small event.</p>
+          <p class="lede reveal" style="--delay:.16s" data-c="epistlechat.letters_intro">Some things deserve more than a text bubble. Pick how your letter is delivered, and it shows up on the other side like a small event.</p>
         </div>
 
         <div class="epistle-layout" style="align-items:center">
-          <div class="styles-grid">
+          <div class="styles-grid" data-list="epistlechat.styles">
             <article class="card style-card reveal" style="--tint:#a99bf0"><span class="sw">✉️</span><div><h3>Letter</h3><p>Classic stationery, sealed with wax.</p></div></article>
             <article class="card style-card reveal" style="--tint:#e2b04a;--delay:.05s"><span class="sw">🏛️</span><div><h3>Museum</h3><p>Your words, framed and exhibited like art.</p></div></article>
             <article class="card style-card reveal" style="--tint:#d2455a;--delay:.1s"><span class="sw">📜</span><div><h3>Royal Scroll</h3><p>A royal decree on rolled parchment.</p></div></article>
@@ -124,7 +125,7 @@
             <article class="card style-card reveal" style="--tint:#f08a3c;--delay:.25s"><span class="sw">✈️</span><div><h3>Paper Plane</h3><p>Folded, thrown, and looping straight to them.</p></div></article>
           </div>
           <div class="phone reveal" style="--ry:8deg">
-            <div class="phone-screen"><img src="assets/epistle/new-letter.webp" width="440" height="956" loading="lazy" alt="New Letter screen listing delivery styles: Letter, Museum, Royal Scroll, Time Capsule, Message in a Bottle and Paper Plane" /></div>
+            <div class="phone-screen"><img data-c-src="epistlechat.letters_screenshot" src="assets/epistle/new-letter.webp" width="440" height="956" loading="lazy" alt="New Letter screen listing delivery styles: Letter, Museum, Royal Scroll, Time Capsule, Message in a Bottle and Paper Plane" /></div>
           </div>
         </div>
       </div>
@@ -138,15 +139,15 @@
             <span class="eyebrow reveal">Chat</span>
             <h2 class="section-title reveal" style="--delay:.08s">And when you<br /><span class="serif">just want to talk.</span></h2>
           </div>
-          <p class="lede reveal" style="--delay:.16s">A full messenger lives right next to your letters, with messages, communities, voice notes and calls in one calm space.</p>
+          <p class="lede reveal" style="--delay:.16s" data-c="epistlechat.chat_intro">A full messenger lives right next to your letters, with messages, communities, voice notes and calls in one calm space.</p>
         </div>
 
         <div class="phone-pair">
           <div class="phone reveal" style="--ry:-6deg">
-            <div class="phone-screen"><img src="assets/epistle/chats.webp" width="440" height="956" loading="lazy" alt="Chat list with Messages and Communities tabs" /></div>
+            <div class="phone-screen"><img data-c-src="epistlechat.chats_screenshot" src="assets/epistle/chats.webp" width="440" height="956" loading="lazy" alt="Chat list with Messages and Communities tabs" /></div>
           </div>
           <div class="phone reveal" style="--ry:6deg;--delay:.12s">
-            <div class="phone-screen"><img src="assets/epistle/conversation.webp" width="440" height="956" loading="lazy" alt="A conversation with a photo wallpaper, a voice message and a cancelled video call" /></div>
+            <div class="phone-screen"><img data-c-src="epistlechat.conversation_screenshot" src="assets/epistle/conversation.webp" width="440" height="956" loading="lazy" alt="A conversation with a photo wallpaper, a voice message and a cancelled video call" /></div>
           </div>
         </div>
       </div>
@@ -159,7 +160,7 @@
           <span class="eyebrow reveal">And so much more</span>
           <h2 class="section-title reveal" style="--delay:.08s">Small details, <span class="serif">big feelings.</span></h2>
         </div>
-        <div class="features">
+        <div class="features" data-list="epistlechat.features">
           <article class="card feature reveal">
             <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M4 9l2-5h12l2 5M9 13h6"/></svg></div>
             <h3>Mailbox &amp; Keepsakes</h3>
@@ -192,7 +193,7 @@
           </article>
         </div>
         <div class="reveal" style="margin-top:48px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
-          <p class="lede" style="margin:0">…and plenty more we're saving for launch day.</p>
+          <p class="lede" style="margin:0" data-c="epistlechat.more_text">…and plenty more we're saving for launch day.</p>
           <a class="btn btn-primary" href="#join" data-magnetic>Join the waitlist <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
@@ -210,10 +211,11 @@
         </div>
       </div>
       <p class="footer-word" aria-hidden="true">SILENTSTUDIOS</p>
-      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span>Made quietly.</span></div>
+      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span data-c-tagline>Made quietly.</span></div>
     </div>
   </footer>
 
+  <script src="assets/content.js"></script>
   <script src="assets/main.js"></script>
 </body>
 </html>

@@ -10,10 +10,16 @@
    only saved in the visitor's own browser, not sent to you.
    --------------------------------------------------------- */
 const SITE_CONFIG = {
+  // Prefer setting these in the /admin editor (Site settings). Values here are a fallback.
   waitlistEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx"
   contactEndpoint: "",  // e.g. "https://formspree.io/f/yyyyyyy"
 };
 
+(window.SS_CONTENT_READY || Promise.resolve()).then(() => {
+if (window.SS_SITE) {
+  SITE_CONFIG.waitlistEndpoint = window.SS_SITE.waitlist_endpoint || SITE_CONFIG.waitlistEndpoint;
+  SITE_CONFIG.contactEndpoint = window.SS_SITE.contact_endpoint || SITE_CONFIG.contactEndpoint;
+}
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 const $ = (s, el = document) => el.querySelector(s);
@@ -474,3 +480,4 @@ function confetti() {
 
 /* ---------- Footer year ---------- */
 $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
+});

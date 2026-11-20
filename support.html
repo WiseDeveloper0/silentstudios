@@ -11,8 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Sans:wght@500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <script>document.documentElement.classList.add("cms-loading");setTimeout(function(){document.documentElement.classList.remove("cms-loading")},2500)</script>
 </head>
-<body>
+<body data-page="support">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -51,7 +52,7 @@
         </div>
 
         <p class="result-count" aria-live="polite"></p>
-        <div class="faq">
+        <div class="faq" data-list="support.faqs">
           <details class="card faq-item" data-cat="waitlist">
             <summary><span class="q">How do I join the EpistleChat waitlist?</span><span class="plus" aria-hidden="true"></span></summary>
             <div class="answer">Head to the <a href="epistlechat.html#join">EpistleChat page</a>, enter your email and pick your device. That's it. We'll email you when it's ready to pre-download.</div>
@@ -113,10 +114,11 @@
         </div>
       </div>
       <p class="footer-word" aria-hidden="true">SILENTSTUDIOS</p>
-      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span>Made quietly.</span></div>
+      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span data-c-tagline>Made quietly.</span></div>
     </div>
   </footer>
 
+  <script src="assets/content.js"></script>
   <script src="assets/main.js"></script>
 </body>
 </html>

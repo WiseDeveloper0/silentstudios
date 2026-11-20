@@ -11,8 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Sans:wght@500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <script>document.documentElement.classList.add("cms-loading");setTimeout(function(){document.documentElement.classList.remove("cms-loading")},2500)</script>
 </head>
-<body>
+<body data-page="kraylus">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -33,9 +34,9 @@
     <section class="page-hero">
       <div class="glow cyan" aria-hidden="true"></div>
       <div class="container">
-        <span class="status idle fade-up"><i></i> Not yet in development</span>
+        <span class="status idle fade-up"><i></i> <span data-c="kraylus.status">Not yet in development</span></span>
         <h1 class="display fade-up d1">Kraylus<span class="serif" style="color:var(--cyan-300)">.</span></h1>
-        <p class="lede fade-up d2">Our next app is still an idea on the whiteboard. We're not ready to say much yet, but we will share the journey here as it takes shape.</p>
+        <p class="lede fade-up d2" data-c="kraylus.intro">Our next app is still an idea on the whiteboard. We're not ready to say much yet, but we will share the journey here as it takes shape.</p>
         <div class="hero-actions fade-up d3" style="margin-top:28px">
           <a class="btn btn-primary" href="index.html#contact" data-magnetic>Get in touch <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn-ghost" href="epistlechat.html" data-magnetic>See EpistleChat</a>
@@ -54,7 +55,7 @@
         <div>
           <span class="eyebrow reveal">Roadmap</span>
           <h2 class="section-title reveal" style="--delay:.08s;margin-bottom:40px">Where it's <span class="serif">at.</span></h2>
-          <div class="timeline">
+          <div class="timeline" data-list="kraylus.roadmap">
             <div class="tl-item done reveal"><small>Now</small><h3>The idea</h3><p>Kraylus has a name, a direction and a very full notebook.</p></div>
             <div class="tl-item reveal" style="--delay:.08s"><small>Next</small><h3>Research &amp; design</h3><p>Talking to people, sketching flows and testing the concept.</p></div>
             <div class="tl-item reveal" style="--delay:.16s"><small>Later</small><h3>Development</h3><p>Starts once EpistleChat is out in the world.</p></div>
@@ -76,10 +77,11 @@
         </div>
       </div>
       <p class="footer-word" aria-hidden="true">SILENTSTUDIOS</p>
-      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span>Made quietly.</span></div>
+      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span data-c-tagline>Made quietly.</span></div>
     </div>
   </footer>
 
+  <script src="assets/content.js"></script>
   <script src="assets/main.js"></script>
 </body>
 </html>

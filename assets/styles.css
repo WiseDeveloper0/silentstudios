@@ -1094,6 +1094,12 @@ section { position: relative; }
 }
 @media (hover: none) { .cursor-glow { display: none; } }
 
+/* Hide editable text until /content has loaded (max 2.5s) */
+.cms-loading [data-c],
+.cms-loading [data-c-rich],
+.cms-loading [data-list],
+.cms-loading [data-c-src] { visibility: hidden; }
+
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {

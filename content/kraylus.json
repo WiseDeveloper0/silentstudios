@@ -1,0 +1,30 @@
+{
+  "status": "Not yet in development",
+  "intro": "Our next app is still an idea on the whiteboard. We're not ready to say much yet, but we will share the journey here as it takes shape.",
+  "roadmap": [
+    {
+      "when": "Now",
+      "title": "The idea",
+      "text": "Kraylus has a name, a direction and a very full notebook.",
+      "done": true
+    },
+    {
+      "when": "Next",
+      "title": "Research & design",
+      "text": "Talking to people, sketching flows and testing the concept.",
+      "done": false
+    },
+    {
+      "when": "Later",
+      "title": "Development",
+      "text": "Starts once EpistleChat is out in the world.",
+      "done": false
+    },
+    {
+      "when": "Someday",
+      "title": "Launch",
+      "text": "You'll hear it here first.",
+      "done": false
+    }
+  ]
+}
