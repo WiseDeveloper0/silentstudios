@@ -92,7 +92,7 @@
         a.href = `mailto:${email}`;
       });
       document.querySelectorAll(".answer").forEach((el) => {
-        el.innerHTML = el.innerHTML.replaceAll("hello@silentstudios.com", esc(email));
+        el.innerHTML = el.innerHTML.replaceAll("support@silentstudios.online", esc(email));
       });
     }
     // footer tagline
