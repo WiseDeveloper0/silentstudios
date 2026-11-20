@@ -9,6 +9,7 @@
    Until then the forms run in "demo mode": submissions are
    only saved in the visitor's own browser, not sent to you.
    --------------------------------------------------------- */
+window.SS_BUILD = "contact-formsubmit-v2";
 const SITE_CONFIG = {
   // Prefer setting these in the /admin editor (Site settings). Values here are a fallback.
   waitlistEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx"
@@ -269,7 +270,8 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 /* ---------- Form helpers ---------- */
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
 
-async function submitTo(endpoint, data, storageKey) {
+async function submitTo(endpoint, data, storageKey, { allowDemo = true } = {}) {
+  if (!endpoint && !allowDemo) throw new Error("No form endpoint configured");
   if (!endpoint) {
     // Demo mode: keep locally so nothing is lost while testing.
     try {
@@ -312,7 +314,8 @@ async function submitTo(endpoint, data, storageKey) {
       await submitTo(
         SITE_CONFIG.contactEndpoint,
         { ...data, _subject: `SilentStudios website: ${data.topic || "General"} from ${data.name.trim()}`, _replyto: data.email, _template: "table" },
-        "ss_contact"
+        "ss_contact",
+        { allowDemo: false }
       );
       form.reset();
       status.className = "form-status ok";
@@ -320,6 +323,8 @@ async function submitTo(endpoint, data, storageKey) {
     } catch (err) {
       status.className = "form-status err";
       status.innerHTML = "";
+      // Surface FormSubmit's own explanation (e.g. "This form needs Activation…")
+      if (/activat/i.test(err.message)) status.append(err.message + " ");
       status.append("Something went wrong. Please email us at ");
       const a = document.createElement("a");
       a.href = `mailto:${SITE_CONFIG.contactEmail}`;
