@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EpistleChat — Join the waitlist · SilentStudios</title>
+  <meta name="description" content="EpistleChat is a calm, personal messaging app from SilentStudios. Join the waitlist to be notified when it is available on the App Store." />
+  <meta name="theme-color" content="#1f0711" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Sans:wght@500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main">
+      <a class="logo" href="index.html" aria-label="SilentStudios home"><span class="logo-mark" aria-hidden="true"></span>SILENTSTUDIOS</a>
+      <ul class="nav-links" id="nav-links">
+        <li class="nav-pill" aria-hidden="true"></li>
+        <li><a href="epistlechat.html" aria-current="page">EpistleChat <span class="tag live">Soon</span></a></li>
+        <li><a href="kraylus.html">Kraylus <span class="tag">Concept</span></a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+      <a class="btn btn-primary btn-sm nav-cta" href="epistlechat.html#join" data-magnetic>Join waitlist</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="container epistle-layout">
+        <div>
+          <span class="status fade-up"><i></i> Coming soon to the App Store</span>
+          <h1 class="display fade-up d1">Epistle<span class="serif gradient-text">Chat</span></h1>
+          <!-- TODO: replace with the final EpistleChat description -->
+          <p class="lede fade-up d2">Conversations worth keeping. EpistleChat brings the care of a handwritten letter to everyday messaging: calm, personal, and built for the people who matter most.</p>
+
+          <div class="card waitlist fade-up d3" id="join" data-waitlist style="margin-top:32px">
+            <div class="wl-progress" aria-hidden="true"><span></span></div>
+
+            <!-- Step 1: email -->
+            <form class="wl-step active" id="wl-step-email" novalidate>
+              <h3>Be first in line ✉️</h3>
+              <p>Drop your email and we'll ping you the moment EpistleChat is ready to pre-download on the App Store.</p>
+              <div class="field">
+                <label for="wl-email">Email address</label>
+                <input class="input" id="wl-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required />
+              </div>
+              <p class="form-status err" id="wl-error" role="alert"></p>
+              <div class="wl-actions">
+                <button class="btn btn-chunky" id="wl-email-next" type="submit" disabled>Continue</button>
+                <span class="form-note">No spam. Unsubscribe anytime.</span>
+              </div>
+            </form>
+
+            <!-- Step 2: device -->
+            <div class="wl-step" role="group" aria-labelledby="wl-device-title">
+              <h3 id="wl-device-title">Where will you use it?</h3>
+              <p>So we let you know about the right version.</p>
+              <div class="choices">
+                <button class="choice" type="button" data-value="iphone" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
+                  <b>iPhone</b><span>The main event</span>
+                </button>
+                <button class="choice" type="button" data-value="ipad" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
+                  <b>iPad</b><span>Bigger letters</span>
+                </button>
+                <button class="choice" type="button" data-value="mac" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+                  <b>Mac</b><span>At your desk</span>
+                </button>
+                <button class="choice" type="button" data-value="android" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 10a7 7 0 0 1 14 0v7H5Z"/><path d="M7 4l1.5 2.5M17 4l-1.5 2.5"/><circle cx="9.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="14.5" cy="11.5" r=".6" fill="currentColor"/></svg>
+                  <b>Android</b><span>Tell me if it comes</span>
+                </button>
+              </div>
+              <p class="form-status err" id="wl-error-2" role="alert"></p>
+              <div class="wl-actions">
+                <button class="link-btn" id="wl-back" type="button">← Back</button>
+                <button class="btn btn-chunky" id="wl-submit" type="button" disabled>Join the waitlist</button>
+              </div>
+            </div>
+
+            <!-- Step 3: done -->
+            <div class="wl-step" aria-live="polite">
+              <div class="success-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+              <h3>You're on the list!</h3>
+              <p>We'll email <b id="wl-done-email"></b> as soon as EpistleChat is available to pre-download.</p>
+              <a class="btn btn-ghost btn-sm" href="index.html" style="justify-self:start">Back to SilentStudios</a>
+            </div>
+
+            <p class="form-note" id="wl-demo" hidden style="margin-top:16px">Demo mode: signups are only saved in this browser until a form endpoint is connected.</p>
+          </div>
+        </div>
+
+        <!-- TODO: swap the mock below for the real screenshot:
+             <div class="phone-screen"><img src="assets/epistlechat-screenshot.png" alt="EpistleChat app screen" /></div> -->
+        <div class="phone fade-up d2" aria-hidden="true">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-head"><span class="av"></span><div><b>Amara</b><small>● present</small></div></div>
+            <div class="phone-body in">
+              <div class="bubble them">I kept your last message. Read it on the train this morning.</div>
+              <div class="bubble me">That's exactly why I wrote it ✨</div>
+              <div class="bubble them">Coffee Sunday? I'll bring the good pastries.</div>
+              <div class="bubble me">It's a date. Writing back properly tonight 💌</div>
+            </div>
+            <div class="phone-input">Write something worth keeping…</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:40px">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow reveal">Why EpistleChat</span>
+          <h2 class="section-title reveal" style="--delay:.08s">Messaging, <span class="serif">reconsidered.</span></h2>
+        </div>
+        <!-- TODO: update features once the final description is ready -->
+        <div class="features">
+          <article class="card feature reveal">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></div>
+            <h3>Presence, not pressure</h3>
+            <p>No anxious read receipts or endless pings. Reply when you're ready to really say something.</p>
+          </article>
+          <article class="card feature reveal" style="--delay:.1s">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></div>
+            <h3>Private by design</h3>
+            <p>Your conversations belong to you. No ads, no selling your data, no exceptions.</p>
+          </article>
+          <article class="card feature reveal" style="--delay:.2s">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></div>
+            <h3>Made to keep</h3>
+            <p>Save the messages that matter, so the important words never get buried under the everyday ones.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"></span>SILENTSTUDIOS</a>
+        <div class="footer-links">
+          <div><h4>Apps</h4><a href="epistlechat.html">EpistleChat</a><a href="kraylus.html">Kraylus</a></div>
+          <div><h4>Studio</h4><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+          <div><h4>Help</h4><a href="support.html">Support</a><a href="mailto:hello@silentstudios.com">Email us</a></div>
+        </div>
+      </div>
+      <p class="footer-word" aria-hidden="true">SILENTSTUDIOS</p>
+      <div class="footer-bottom"><span>© <span data-year></span> SilentStudios. All rights reserved.</span><span>Made quietly.</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
