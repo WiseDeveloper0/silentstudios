@@ -12,13 +12,19 @@
 const SITE_CONFIG = {
   // Prefer setting these in the /admin editor (Site settings). Values here are a fallback.
   waitlistEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx"
-  contactEndpoint: "",  // e.g. "https://formspree.io/f/yyyyyyy"
+  contactEndpoint: "",  // optional; when empty, contact messages go to contactEmail via FormSubmit
+  contactEmail: "support@silentstudios.online",
 };
 
 (window.SS_CONTENT_READY || Promise.resolve()).then(() => {
 if (window.SS_SITE) {
   SITE_CONFIG.waitlistEndpoint = window.SS_SITE.waitlist_endpoint || SITE_CONFIG.waitlistEndpoint;
   SITE_CONFIG.contactEndpoint = window.SS_SITE.contact_endpoint || SITE_CONFIG.contactEndpoint;
+  SITE_CONFIG.contactEmail = window.SS_SITE.contact_email || SITE_CONFIG.contactEmail;
+}
+// No custom contact endpoint? Deliver messages straight to the contact inbox via FormSubmit.
+if (!SITE_CONFIG.contactEndpoint && SITE_CONFIG.contactEmail) {
+  SITE_CONFIG.contactEndpoint = `https://formsubmit.co/ajax/${encodeURIComponent(SITE_CONFIG.contactEmail)}`;
 }
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -281,6 +287,8 @@ async function submitTo(endpoint, data, storageKey) {
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error(`Request failed (${res.status})`);
+  const json = await res.json().catch(() => ({}));
+  if (json.success === false || json.success === "false") throw new Error(json.message || "Not delivered");
   return true;
 }
 
@@ -301,13 +309,23 @@ async function submitTo(endpoint, data, storageKey) {
     btn.disabled = true;
     btn.firstChild.textContent = "Sending… ";
     try {
-      await submitTo(SITE_CONFIG.contactEndpoint, { ...data, _subject: "SilentStudios contact" }, "ss_contact");
+      await submitTo(
+        SITE_CONFIG.contactEndpoint,
+        { ...data, _subject: `SilentStudios website: ${data.topic || "General"} from ${data.name.trim()}`, _replyto: data.email, _template: "table" },
+        "ss_contact"
+      );
       form.reset();
       status.className = "form-status ok";
       status.textContent = "Thanks — we'll get back to you within two working days.";
     } catch (err) {
       status.className = "form-status err";
-      status.textContent = "Something went wrong. Please email us directly instead.";
+      status.innerHTML = "";
+      status.append("Something went wrong. Please email us at ");
+      const a = document.createElement("a");
+      a.href = `mailto:${SITE_CONFIG.contactEmail}`;
+      a.textContent = SITE_CONFIG.contactEmail;
+      a.style.textDecoration = "underline";
+      status.append(a, ".");
     } finally {
       btn.disabled = false;
       btn.firstChild.textContent = "Send message ";

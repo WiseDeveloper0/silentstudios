@@ -21,9 +21,9 @@ content:
         type: string
         description: Paste your Formspree form URL, e.g. https://formspree.io/f/abcdefg. Leave empty for demo mode.
       - name: contact_endpoint
-        label: Contact form link (Formspree)
+        label: Contact form link (optional)
         type: string
-        description: A second Formspree form URL for contact messages.
+        description: Optional. Leave empty and contact messages are emailed to the contact email above (via FormSubmit).
       - name: footer_tagline
         label: Footer tagline
         type: string
