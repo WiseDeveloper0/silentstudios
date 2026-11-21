@@ -1,83 +1,178 @@
 {
   "status": "Coming soon to the App Store",
-  "intro": "Letters and chat, together in one app. Send words that arrive sealed in wax, framed like art or tucked inside a time capsule, then keep the conversation going in a beautifully simple chat.",
+  "tagline": "Private chats. Beautiful letters.",
+  "intro": "EpistleChat is an end-to-end encrypted messenger for iPhone that makes talking to your people feel personal again: chats full of personality, letters worth keeping, and communities you'll want to spend time in.",
+  "highlights": [
+    "End-to-end encrypted",
+    "No ads",
+    "Your data is never sold",
+    "Free to use"
+  ],
   "waitlist_title": "Be first in line ✉️",
   "waitlist_text": "Drop your email and we'll ping you the moment EpistleChat is ready to pre-download on the App Store.",
   "hero_screenshot": "assets/epistle/letters.webp",
-  "letters_intro": "Some things deserve more than a text bubble. Pick how your letter is delivered, and it shows up on the other side like a small event.",
+  "letters_title": "Letters, reimagined.",
+  "letters_intro": "Write a real letter. Choose the stationery, handwriting, ink, wax seal and bouquet, then pick how it arrives.",
   "letters_screenshot": "assets/epistle/new-letter.webp",
   "styles": [
     {
       "emoji": "✉️",
-      "name": "Letter",
-      "text": "Classic stationery, sealed with wax.",
+      "name": "Classic Letter",
+      "text": "The seal cracks and the page unfolds.",
       "color": "#a99bf0"
+    },
+    {
+      "emoji": "📜",
+      "name": "Royal Scroll",
+      "text": "A fanfare plays and the parchment unrolls.",
+      "color": "#d2455a"
+    },
+    {
+      "emoji": "🍾",
+      "name": "Message in a Bottle",
+      "text": "It washes ashore and the cork pops.",
+      "color": "#3cc7b4"
+    },
+    {
+      "emoji": "✈️",
+      "name": "Paper Plane",
+      "text": "It loops in and lands at their feet.",
+      "color": "#f08a3c"
+    },
+    {
+      "emoji": "⏳",
+      "name": "Time Capsule",
+      "text": "Sealed until the day you choose.",
+      "color": "#4aa8e8"
     },
     {
       "emoji": "🏛️",
       "name": "Museum",
       "text": "Your words, framed and exhibited like art.",
       "color": "#e2b04a"
-    },
-    {
-      "emoji": "📜",
-      "name": "Royal Scroll",
-      "text": "A royal decree on rolled parchment.",
-      "color": "#d2455a"
-    },
-    {
-      "emoji": "⏳",
-      "name": "Time Capsule",
-      "text": "Sealed away until the day you choose.",
-      "color": "#4aa8e8"
-    },
-    {
-      "emoji": "🍾",
-      "name": "Message in a Bottle",
-      "text": "Corked, tossed to sea, and washed up at their feet.",
-      "color": "#3cc7b4"
-    },
-    {
-      "emoji": "✈️",
-      "name": "Paper Plane",
-      "text": "Folded, thrown, and looping straight to them.",
-      "color": "#f08a3c"
     }
   ],
-  "chat_intro": "A full messenger lives right next to your letters, with messages, communities, voice notes and calls in one calm space.",
+  "letter_extras": [
+    {
+      "emoji": "💌",
+      "title": "Open when…",
+      "text": "Letters for when you miss me, when you can't sleep, or on your birthday."
+    },
+    {
+      "emoji": "🌸",
+      "title": "Scented letters",
+      "text": "Add a scent to set the mood before they read a word."
+    },
+    {
+      "emoji": "💐",
+      "title": "Bouquets with meaning",
+      "text": "Every flower in the bouquet says something."
+    },
+    {
+      "emoji": "🦫",
+      "title": "Delivered by Pip",
+      "text": "Let Pip the capybara carry it by paper plane or by slow boat."
+    },
+    {
+      "emoji": "🗝️",
+      "title": "Keepsakes",
+      "text": "Letters you receive are saved, so the important words stay."
+    }
+  ],
+  "chat_title": "Chats with personality.",
+  "chat_intro": "Everyday messages, with the fun turned back on.",
   "chats_screenshot": "assets/epistle/chats.webp",
   "conversation_screenshot": "assets/epistle/conversation.webp",
   "features": [
     {
-      "icon": "mailbox",
-      "title": "Mailbox & Keepsakes",
-      "text": "Letters land in your mailbox. The ones you love get pinned to your Keepsakes wall, polaroid-style."
+      "icon": "sparkle",
+      "title": "Message effects",
+      "text": "Confetti, Fire, Ice, Disco, Invisible Ink, or wrapped as a Present."
     },
     {
-      "icon": "pip",
-      "title": "Meet Pip",
-      "text": "A friendly capybara who gently nudges you when someone out there is wondering about you."
-    },
-    {
-      "icon": "check",
-      "title": "Know when it's opened",
-      "text": "Every sent letter shows when it was opened, so you know your words found their way."
-    },
-    {
-      "icon": "people",
-      "title": "Messages & Communities",
-      "text": "One-on-one chats, group chats and whole communities, all in one tidy inbox."
+      "icon": "pen",
+      "title": "Draw together",
+      "text": "Doodle with each other right on the chat background."
     },
     {
       "icon": "mic",
-      "title": "Voice notes & calls",
-      "text": "Send a voice message, or jump on a voice or video call straight from the conversation."
+      "title": "Voice, photos & polls",
+      "text": "Voice messages, photos, polls, reactions and @mentions."
     },
     {
-      "icon": "music",
-      "title": "Make it yours",
-      "text": "Custom chat wallpapers, a now-playing song on your profile and name styles that stand out."
+      "icon": "smile",
+      "title": "Your own stickers",
+      "text": "Make your own stickers and emoji."
+    },
+    {
+      "icon": "image",
+      "title": "Themes & wallpapers",
+      "text": "Pick a chat theme, or use your own photo as the wallpaper."
+    },
+    {
+      "icon": "globe",
+      "title": "On-device translation",
+      "text": "Read messages and letters in your own language, translated right on your phone."
     }
   ],
-  "more_text": "…and plenty more we're saving for launch day."
+  "groups": [
+    {
+      "emoji": "🗳️",
+      "title": "Plan things together",
+      "text": "Stop the endless \"so when are we meeting?\" thread.",
+      "points": [
+        "Decision cards find a time that works for the group",
+        "Vote in order of preference, or rule options out",
+        "Split a bill, right in the chat"
+      ]
+    },
+    {
+      "emoji": "🔔",
+      "title": "Messages that respect your time",
+      "text": "Reach people without stressing them out.",
+      "points": [
+        "Send for \"Later\": it waits until their quiet hours are over",
+        "Mark something urgent when it really matters",
+        "Soft read receipts that don't put pressure on anyone"
+      ]
+    },
+    {
+      "emoji": "🏠",
+      "title": "Communities & Lounges",
+      "text": "Places you'll actually want to hang out.",
+      "points": [
+        "Start from a template: Hangout, Gaming, Study Hall, Creators, Book Club",
+        "Voice lounges in animated rooms: a campfire, a café, outer space, a rainy window",
+        "Host a Stage where the audience raises a hand to speak",
+        "Add bots to keep things running"
+      ]
+    },
+    {
+      "emoji": "✨",
+      "title": "Be yourself",
+      "text": "A profile that actually feels like you.",
+      "points": [
+        "Animated avatar decorations and profile frames",
+        "Styled display names with custom fonts and gradients",
+        "Pocket Notes: a short status that fades after 24 hours",
+        "Link Spotify, Steam, PlayStation, AniList, Twitch and more",
+        "Show as Active, Sleep, Do Not Disturb, or appear offline"
+      ]
+    },
+    {
+      "emoji": "🔒",
+      "title": "Private by design",
+      "text": "Your conversations belong to you.",
+      "points": [
+        "End-to-end encrypted messages, photos, voice notes and files",
+        "Your encryption keys stay on your device",
+        "Screenshot alerts, and chats hidden in the app switcher",
+        "Face ID lock and two-factor sign-in",
+        "Teen accounts with safer defaults",
+        "No ads, and your data is never sold"
+      ]
+    }
+  ],
+  "membership_title": "Free, with optional memberships.",
+  "membership_text": "EpistleChat is free. Memberships unlock extra cosmetics and bigger limits."
 }

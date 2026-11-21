@@ -73,14 +73,20 @@ content:
     format: json
     fields:
       - { name: status, label: "Top: status pill", type: string }
+      - { name: tagline, label: "Top: tagline (under the title)", type: string }
       - { name: intro, label: "Top: intro paragraph", type: text }
+      - name: highlights
+        label: "Top: highlight pills"
+        type: string
+        list: true
       - { name: waitlist_title, label: "Waitlist: title", type: string }
       - { name: waitlist_text, label: "Waitlist: text", type: text }
       - { name: hero_screenshot, label: "Top: phone screenshot", type: image }
-      - { name: letters_intro, label: "Letters section: intro", type: text }
-      - { name: letters_screenshot, label: "Letters section: screenshot", type: image }
+      - { name: letters_title, label: "Letters: heading", type: string }
+      - { name: letters_intro, label: "Letters: intro", type: text }
+      - { name: letters_screenshot, label: "Letters: screenshot", type: image }
       - name: styles
-        label: "Letters section: delivery styles"
+        label: "Letters: delivery styles"
         type: object
         list: true
         fields:
@@ -88,11 +94,20 @@ content:
           - { name: name, label: Name, type: string }
           - { name: text, label: Description, type: text }
           - { name: color, label: "Colour (hex, e.g. #a99bf0)", type: string }
-      - { name: chat_intro, label: "Chat section: intro", type: text }
-      - { name: chats_screenshot, label: "Chat section: left screenshot", type: image }
-      - { name: conversation_screenshot, label: "Chat section: right screenshot", type: image }
+      - name: letter_extras
+        label: "Letters: extras (Open when…, scents, Pip…)"
+        type: object
+        list: true
+        fields:
+          - { name: emoji, label: Emoji, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+      - { name: chat_title, label: "Chat: heading", type: string }
+      - { name: chat_intro, label: "Chat: intro", type: text }
+      - { name: chats_screenshot, label: "Chat: left screenshot", type: image }
+      - { name: conversation_screenshot, label: "Chat: right screenshot", type: image }
       - name: features
-        label: Features
+        label: "Chat: features"
         type: object
         list: true
         fields:
@@ -100,10 +115,23 @@ content:
             label: Icon
             type: select
             options:
-              values: [mailbox, pip, check, people, mic, music, heart, lock, star, clock]
+              values: [sparkle, pen, mic, smile, image, globe, mailbox, pip, check, people, music, heart, lock, star, clock]
           - { name: title, label: Title, type: string }
           - { name: text, label: Text, type: text }
-      - { name: more_text, label: "Closing line", type: string }
+      - name: groups
+        label: "More: feature groups (Plan, Communities, Privacy…)"
+        type: object
+        list: true
+        fields:
+          - { name: emoji, label: Emoji, type: string }
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Short intro, type: string }
+          - name: points
+            label: Bullet points
+            type: string
+            list: true
+      - { name: membership_title, label: "Memberships: heading", type: string }
+      - { name: membership_text, label: "Memberships: text", type: text }
 
   - name: kraylus
     label: Kraylus page

@@ -29,6 +29,11 @@
     lock: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',
     star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/>',
     clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    sparkle: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><path d="m12 8 1.2 2.8L16 12l-2.8 1.2L12 16l-1.2-2.8L8 12l2.8-1.2Z"/>',
+    pen: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/>',
+    smile: '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14a4 4 0 0 0 7 0"/><circle cx="9.5" cy="10" r=".7" fill="currentColor"/><circle cx="14.5" cy="10" r=".7" fill="currentColor"/>',
+    image: '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m4 18 5-5 4 4 3-3 4 4"/>',
+    globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17"/>',
   };
   const svg = (name) =>
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ICONS.star}</svg>`;
@@ -50,6 +55,15 @@
     "epistlechat.features": (items) =>
       items.map((f, i) => `<article class="card feature reveal" style="${delay(i)}">
         <div class="ic">${svg(f.icon)}</div><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></article>`).join(""),
+    "epistlechat.highlights": (items) =>
+      items.map((h) => `<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>${esc(h)}</li>`).join(""),
+    "epistlechat.letter_extras": (items) =>
+      items.map((x, i) => `<article class="card extra reveal" style="--delay:${(i * 0.06).toFixed(2)}s">
+        <span class="extra-emoji">${esc(x.emoji)}</span><h3>${esc(x.title)}</h3><p>${esc(x.text)}</p></article>`).join(""),
+    "epistlechat.groups": (items) =>
+      items.map((g, i) => `<article class="card group reveal" style="${delay(i)}">
+        <span class="group-emoji">${esc(g.emoji)}</span><h3>${esc(g.title)}</h3>${g.text ? `<p>${esc(g.text)}</p>` : ""}
+        <ul>${(g.points || []).map((pt) => `<li>${esc(pt)}</li>`).join("")}</ul></article>`).join(""),
     "kraylus.roadmap": (items) =>
       items.map((r, i) => `<div class="tl-item${r.done ? " done" : ""} reveal" style="--delay:${(i * 0.08).toFixed(2)}s${i === items.length - 1 ? ";padding-bottom:0" : ""}">
         <small>${esc(r.when)}</small><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></div>`).join(""),

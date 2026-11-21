@@ -997,6 +997,60 @@ section { position: relative; }
 .phone.reveal, .phone.reveal.in { transform: perspective(1200px) rotateY(var(--ry, -8deg)) rotateX(var(--rx, 4deg)); }
 .phone.reveal.in { opacity: 1; }
 
+
+/* EpistleChat: tagline, highlights, letter extras, groups, membership */
+.tagline {
+  margin: 14px 0 0;
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(24px, 3vw, 34px); line-height: 1.15; letter-spacing: -0.01em;
+  color: var(--blush-300);
+}
+.highlights { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.highlights li {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px 6px 9px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: rgba(255,255,255,0.03);
+  font-size: 13px; font-weight: 500; color: var(--text-muted);
+}
+.highlights svg { width: 14px; height: 14px; color: var(--cyan-300); }
+
+.extras {
+  margin-top: clamp(40px, 6vw, 72px);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;
+}
+.extra { padding: 22px; display: grid; gap: 8px; align-content: start; }
+.extra-emoji { font-size: 26px; line-height: 1; transition: transform 0.5s var(--ease-spring); display: inline-block; }
+.extra:hover .extra-emoji { transform: scale(1.15) rotate(-6deg); }
+.extra h3 { margin: 4px 0 0; font-family: var(--font-display); font-size: 17px; letter-spacing: -0.02em; }
+.extra p { margin: 0; font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+@media (max-width: 400px) { .groups { grid-template-columns: 1fr; } }
+.group { padding: 30px; display: grid; gap: 10px; align-content: start; }
+.group-emoji {
+  width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 24px;
+  background: rgba(245,198,209,0.08); border: 1px solid var(--border-strong);
+}
+.group h3 { margin: 6px 0 0; font-family: var(--font-display); font-size: 22px; letter-spacing: -0.03em; }
+.group > p { margin: 0; color: var(--text-muted); }
+.group ul { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; }
+.group li { position: relative; padding-left: 22px; font-size: 15px; line-height: 1.5; color: var(--text); }
+.group li::before {
+  content: ""; position: absolute; left: 2px; top: 0.6em;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blush-300), var(--cyan-300));
+}
+
+.membership {
+  margin-top: 20px; padding: clamp(28px, 4vw, 44px);
+  display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between;
+  background:
+    radial-gradient(600px circle at var(--x) var(--y), rgba(168,236,240,0.1), transparent 40%),
+    linear-gradient(120deg, rgba(140,42,77,0.45), rgba(31,7,17,0.2) 60%, rgba(111,217,224,0.12));
+}
+.membership h3 { margin: 12px 0 6px; font-family: var(--font-display); font-size: clamp(26px, 3.4vw, 38px); letter-spacing: -0.035em; line-height: 1.05; }
+.membership p { margin: 0; color: var(--text-muted); max-width: 52ch; }
+
 /* ---------- Support: search + filters (Airbnb-inspired) ---------- */
 
 .search-bar {
