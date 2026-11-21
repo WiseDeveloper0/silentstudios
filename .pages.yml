@@ -64,6 +64,12 @@ content:
         fields:
           - { name: number, label: "Number (e.g. 2, 100%, ∞)", type: string }
           - { name: label, label: Label, type: string }
+      - { name: env_eyebrow, label: "Envelope scene: small label", type: string }
+      - { name: env_title_1, label: "Envelope scene: heading line 1", type: string }
+      - { name: env_title_2, label: "Envelope scene: heading line 2 (italic)", type: string }
+      - { name: letter_text, label: "Envelope scene: the letter", type: text, description: "Keep it short (around 180 characters) so it fits on phones." }
+      - { name: letter_sign, label: "Envelope scene: signature", type: string }
+      - { name: env_cta, label: "Envelope scene: button text", type: string }
       - { name: contact_intro, label: "Contact: intro", type: text }
 
   - name: epistlechat
