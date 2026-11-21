@@ -1536,20 +1536,43 @@ section { position: relative; }
 .pg-info h3 { margin: 4px 0 0; font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -0.04em; line-height: 1; }
 .pg-info p { margin: 0; color: var(--text-muted); }
 .pg-label { font-size: 13px; color: var(--text-muted); }
-.pg-effects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; }
+.pg-effects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 10px; margin-top: 8px; justify-items: center; }
 @media (max-width: 420px) { .pg-effects { grid-template-columns: repeat(2, 1fr); } }
-.pg-effect {
-  display: grid; justify-items: center; gap: 4px;
-  padding: 12px 6px; border-radius: 14px;
-  border: 1.5px solid var(--border-strong); border-bottom-width: 4px;
-  background: rgba(0,0,0,0.18); cursor: pointer;
-  font-size: 13px; font-weight: 600; color: var(--text-muted);
-  transition: transform 0.12s, border-color 0.2s, background 0.2s, color 0.2s;
+
+/* Effect tiles: same art as EffectTile in MessageEffects.swift (gradient, big symbol, tiny bubble). */
+.pg-tile {
+  display: grid; justify-items: center; gap: 8px;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 15px; color: var(--text-muted);
 }
-.pg-effect span { font-size: 24px; line-height: 1; transition: transform 0.4s var(--ease-spring); }
-.pg-effect:hover span { transform: scale(1.2) rotate(-8deg); }
-.pg-effect:active { transform: translateY(2px); border-bottom-width: 2px; margin-bottom: 2px; }
-.pg-effect[aria-pressed="true"] { border-color: var(--cyan-300); background: rgba(168,236,240,0.08); color: var(--text); }
+.pg-tile-art {
+  position: relative; display: block;
+  width: 92px; height: 92px; border-radius: 18px;
+  transition: transform 0.35s var(--ease-spring);
+}
+.pg-tile-art svg {
+  position: absolute; left: 50%; top: 50%; width: 46px; height: 46px;
+  transform: translate(-50%, calc(-50% - 8px));
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12));
+}
+.pg-tile-bubble {
+  position: absolute; right: 8px; bottom: 8px; width: 52px; height: 18px; border-radius: 9px;
+  background: linear-gradient(135deg, #7B61FF, #4F46E5);
+}
+/* Selected: 4px ring in the bubble gradient, 3px outside the tile. Otherwise a hairline. */
+.pg-tile-ring {
+  position: absolute; inset: -3px; border-radius: 21px; padding: 1px; pointer-events: none;
+  background: rgba(255,255,255,0.08);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.pg-tile[aria-pressed="true"] { color: var(--text); }
+.pg-tile[aria-pressed="true"] .pg-tile-art { transform: scale(1.05); }
+.pg-tile[aria-pressed="true"] .pg-tile-ring { padding: 4px; background: linear-gradient(135deg, #7B61FF, #4F46E5); }
+.pg-tile[aria-pressed="true"] svg { animation: pgBounce 0.5s var(--ease-spring); }
+.pg-tile:focus-visible { outline: none; }
+.pg-tile:focus-visible .pg-tile-art { box-shadow: 0 0 0 3px var(--cyan-300); }
+@keyframes pgBounce { 0% { transform: translate(-50%, calc(-50% - 8px)) scale(1); } 40% { transform: translate(-50%, calc(-50% - 8px)) scale(1.22); } 100% { transform: translate(-50%, calc(-50% - 8px)) scale(1); } }
 
 .pg-chat {
   position: relative;
@@ -1562,7 +1585,6 @@ section { position: relative; }
   padding: 18px 18px 26px;
   display: flex; flex-direction: column; gap: 10px;
   color: #2e0b1a;
-  overflow: visible;
 }
 .pg-top { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid rgba(46,11,26,0.08); margin-bottom: auto; }
 .pg-av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(145deg, #a8ecf0, #f5c6d1); }
@@ -1574,96 +1596,63 @@ section { position: relative; }
   font-size: 16px; line-height: 1.35;
 }
 .pg-bubble.them { background: #ece4ef; border-bottom-left-radius: 6px; align-self: flex-start; }
-.pg-bubble.me {
-  align-self: flex-end; border-bottom-right-radius: 6px;
-  background: #6c5ce7; color: #fff; font-weight: 500;
-  cursor: default; min-width: 120px; text-align: center;
-  transition: background 0.4s, box-shadow 0.4s, color 0.3s;
-}
 .pg-hint { margin: 4px 0 0; min-height: 1.3em; text-align: right; font-size: 13px; color: #8c2a4d; font-style: italic; }
 
-.pg-bubble.me.sending { animation: pgSend 0.6s var(--ease-spring); }
-@keyframes pgSend { 0% { transform: translateY(40px) scale(0.6); opacity: 0; } 100% { transform: none; opacity: 1; } }
+/* Full-screen moments (Disco / Fire / Ice / Confetti) are drawn on this canvas over the chat. */
+.pg-chat { overflow: hidden; }
+.pg-screen { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; border-radius: inherit; }
+.pg-top, .pg-bubble.them, .pg-me, .pg-hint { position: relative; z-index: 1; }
 
-/* Fire */
-.pg-bubble.me.fx-fire {
-  background: linear-gradient(0deg, #ff4d00, #ff9a00 60%, #ffd166);
-  animation: pgSend 0.6s var(--ease-spring), flicker 0.18s 0.6s 10 alternate;
-  box-shadow: 0 0 24px rgba(255,120,0,0.75), 0 0 60px rgba(255,80,0,0.35);
+/* My bubble: BubbleStyle.myGradient, 20pt corners, 14 x 9 padding, up to 240 wide. */
+.pg-me { align-self: flex-end; display: flex; justify-content: flex-end; }
+.pg-me.swap > * { animation: pgSwap 0.35s var(--ease-spring); }
+@keyframes pgSwap { from { transform: scale(0.8); opacity: 0; } to { transform: none; opacity: 1; } }
+.pg-bubble.me {
+  max-width: 240px; padding: 9px 14px; border-radius: 20px;
+  background: linear-gradient(135deg, #7B61FF, #4F46E5); color: #fff;
+  text-align: left; overflow-wrap: anywhere;
 }
-@keyframes flicker { from { box-shadow: 0 0 18px rgba(255,120,0,0.6), 0 0 40px rgba(255,80,0,0.3); transform: translateY(0); } to { box-shadow: 0 0 30px rgba(255,150,0,0.95), 0 0 70px rgba(255,80,0,0.45); transform: translateY(-1px) rotate(-0.4deg); } }
+.pg-bubble.me .pg-text { position: relative; z-index: 2; transition: opacity 0.4s ease-in-out; }
+.pg-bubble.me.fx-disco, .pg-bubble.me.fx-fire, .pg-bubble.me.fx-ice { background: none; }
+.pg-bubble.me.fx-ice { color: #0C4A6E; }
+.pg-bg, .pg-inkfx { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; pointer-events: none; }
+.pg-bg { z-index: 0; }
+.pg-flames { position: absolute; left: 0; top: -16px; width: 100%; height: 20px; z-index: 1; pointer-events: none; }
 
-/* Ice */
-.pg-bubble.me.fx-ice {
-  background: linear-gradient(135deg, #e0f7ff, #a8ecf0 45%, #7cc8e8);
-  color: #0b4157;
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.8), 0 0 24px rgba(124,200,232,0.7);
-  animation: pgSend 0.6s var(--ease-spring), shiver 0.08s 0.6s 8;
-}
-.pg-bubble.me.fx-ice::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.85) 45%, transparent 60%);
-  background-size: 250% 100%;
-  animation: frost 1.6s 0.5s ease-in-out 2;
-}
-@keyframes shiver { 50% { transform: translateX(-1.5px); } }
-@keyframes frost { from { background-position: 150% 0; } to { background-position: -100% 0; } }
+/* Invisible ink: text nearly hidden under shimmering particles until tapped (hides again after 5s). */
+.pg-bubble.me.fx-ink { cursor: pointer; }
+.pg-bubble.me.fx-ink .pg-text { opacity: 0.02; }
+.pg-inkfx { z-index: 3; transition: opacity 0.6s ease-in-out; }
+.pg-bubble.me.fx-ink.revealed .pg-text { opacity: 1; }
+.pg-bubble.me.fx-ink.revealed .pg-inkfx { opacity: 0; transition-duration: 0.4s; }
+.pg-bubble.me.fx-ink:focus-visible { outline: 3px solid var(--cyan-300); outline-offset: 2px; }
 
-/* Disco */
-.pg-bubble.me.fx-disco {
-  background: linear-gradient(90deg, #ff6ec7, #a8ecf0, #ffd166, #6c5ce7, #ff6ec7);
-  background-size: 300% 100%;
-  color: #1f0711;
-  animation: pgSend 0.6s var(--ease-spring), disco 1.2s linear infinite, bop 0.4s ease-in-out infinite alternate;
-  box-shadow: 0 0 30px rgba(255,110,199,0.6);
+/* Present: PresentWrapper's gift box, 120 x 130. Tap → wiggle, lid pops off, message appears. */
+.pg-gift { display: grid; justify-items: center; padding-bottom: 4px; cursor: pointer; border-radius: 12px; }
+.pg-gift:focus-visible { outline: 3px solid var(--cyan-300); outline-offset: 2px; }
+.pg-gift-wiggle { width: 120px; height: 130px; }
+.pg-gift-art { position: relative; width: 120px; height: 130px; animation: pgIdle 1.2s ease-in-out infinite alternate; }
+@keyframes pgIdle { from { transform: scale(0.98); } to { transform: scale(1.03); } }
+.pg-gift-box {
+  position: absolute; left: 12px; top: 43px; width: 96px; height: 72px; border-radius: 10px;
+  background: linear-gradient(180deg, #F472B6, #DB2777);
 }
-.pg-bubble.me.fx-disco::after {
-  content: "🪩"; position: absolute; top: -34px; left: 50%; font-size: 26px;
-  animation: ball 1s linear infinite; transform-origin: 50% 50%;
+.pg-gift-lid {
+  position: absolute; left: 6px; top: 17px; width: 108px; height: 36px;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.45s ease-out;
 }
-@keyframes disco { to { background-position: 300% 0; } }
-@keyframes bop { to { transform: translateY(-3px) rotate(1deg); } }
-@keyframes ball { from { transform: translateX(-50%) rotate(0); } to { transform: translateX(-50%) rotate(360deg); } }
-
-/* Invisible ink */
-.pg-ink {
-  position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1.4px);
-  background-size: 6px 6px;
-  animation: inkMove 0.6s steps(3) infinite;
-  transition: opacity 0.4s;
+.pg-gift.lid-off .pg-gift-lid { transform: translateY(-60px) rotate(-25deg); opacity: 0; }
+.pg-gift-cap {
+  position: absolute; left: 0; bottom: 0; width: 108px; height: 24px; border-radius: 8px;
+  background: linear-gradient(180deg, #F9A8D4, #EC4899);
 }
-@keyframes inkMove { 0% { background-position: 0 0; } 33% { background-position: 2px 3px; } 66% { background-position: -3px 1px; } }
-.pg-bubble.me.fx-ink { cursor: pointer; background: #4b3fb0; }
-.pg-bubble.me.fx-ink .pg-text { filter: blur(7px); opacity: 0.35; transition: filter 0.6s, opacity 0.6s; }
-.pg-bubble.me.fx-ink .pg-ink { opacity: 1; }
-.pg-bubble.me.fx-ink.revealed .pg-text { filter: none; opacity: 1; }
-.pg-bubble.me.fx-ink.revealed .pg-ink { opacity: 0; }
-
-/* Present */
-.pg-gift { position: absolute; inset: -4px; border-radius: 14px; pointer-events: none; opacity: 0; }
-.pg-bubble.me.fx-present { cursor: pointer; }
-.pg-bubble.me.fx-present .pg-gift {
-  opacity: 1;
-  background:
-    linear-gradient(90deg, transparent calc(50% - 7px), #ffd166 calc(50% - 7px), #ffd166 calc(50% + 7px), transparent calc(50% + 7px)),
-    linear-gradient(0deg, transparent calc(50% - 6px), #ffd166 calc(50% - 6px), #ffd166 calc(50% + 6px), transparent calc(50% + 6px)),
-    linear-gradient(135deg, #d2455a, #8c2a4d);
-  box-shadow: 0 8px 20px rgba(140,42,77,0.4);
-  animation: giftWiggle 1.2s 0.6s ease-in-out infinite;
-  transition: transform 0.6s var(--ease-spring), opacity 0.5s;
+.pg-gift-box::after, .pg-gift-cap::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 14px; transform: translateX(-50%); background: #FACC15;
 }
-.pg-bubble.me.fx-present .pg-gift i {
-  position: absolute; left: 50%; top: -16px; width: 30px; height: 18px; transform: translateX(-50%);
-}
-.pg-bubble.me.fx-present .pg-gift i::before,
-.pg-bubble.me.fx-present .pg-gift i::after {
-  content: ""; position: absolute; top: 2px; width: 14px; height: 14px; border: 4px solid #ffd166; border-radius: 50% 50% 0 50%;
-}
-.pg-bubble.me.fx-present .pg-gift i::before { left: 0; transform: rotate(-20deg); }
-.pg-bubble.me.fx-present .pg-gift i::after { right: 0; transform: scaleX(-1) rotate(-20deg); }
-.pg-bubble.me.fx-present.unwrapped .pg-gift { transform: translateY(-80px) rotate(25deg) scale(0.6); opacity: 0; animation: none; }
-@keyframes giftWiggle { 0%, 70%, 100% { transform: rotate(0); } 75% { transform: rotate(-4deg); } 85% { transform: rotate(4deg); } 92% { transform: rotate(-2deg); } }
+.pg-gift-bow { position: absolute; top: 0; width: 26px; height: 18px; border-radius: 50%; background: #FACC15; }
+.pg-gift-bow.l { left: 30px; transform: rotate(-25deg); }
+.pg-gift-bow.r { left: 52px; transform: rotate(25deg); }
+.pg-gift small { margin-top: -2px; font-size: 11px; font-weight: 600; color: rgba(60,60,67,0.6); }
 
 @media (prefers-reduced-motion: reduce) {
   .float-layer { display: none; }

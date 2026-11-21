@@ -165,18 +165,37 @@
             <label class="pg-label" for="pg-input">Your message</label>
             <input class="input pg-input" id="pg-input" maxlength="48" value="I got the job!!" autocomplete="off" />
             <div class="pg-effects" role="group" aria-label="Message effects">
-              <button class="pg-effect" type="button" data-fx="confetti" aria-pressed="false"><span>🎉</span>Confetti</button>
-              <button class="pg-effect" type="button" data-fx="fire" aria-pressed="false"><span>🔥</span>Fire</button>
-              <button class="pg-effect" type="button" data-fx="ice" aria-pressed="false"><span>🧊</span>Ice</button>
-              <button class="pg-effect" type="button" data-fx="disco" aria-pressed="false"><span>🪩</span>Disco</button>
-              <button class="pg-effect" type="button" data-fx="ink" aria-pressed="false"><span>🫥</span>Invisible Ink</button>
-              <button class="pg-effect" type="button" data-fx="present" aria-pressed="false"><span>🎁</span>Present</button>
+              <button class="pg-tile" type="button" data-fx="disco" aria-pressed="true">
+                <span class="pg-tile-art" style="background:linear-gradient(135deg, #1E1B4B, #7C3AED, #DB2777)" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#fff" d="M20 8Q20 26 4 26Q20 26 20 44Q20 26 36 26Q20 26 20 8Z"/><path fill="#fff" d="M37 4Q37 11 30 11Q37 11 37 18Q37 11 44 11Q37 11 37 4Z"/><path fill="#fff" d="M38 32Q38 37 33 37Q38 37 38 42Q38 37 43 37Q38 37 38 32Z"/></svg><i class="pg-tile-bubble"></i><i class="pg-tile-ring"></i></span>
+                <span class="pg-tile-name">Disco</span>
+              </button>
+              <button class="pg-tile" type="button" data-fx="fire" aria-pressed="false">
+                <span class="pg-tile-art" style="background:linear-gradient(135deg, #7F1D1D, #EA580C, #FACC15)" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#fff" d="M25 3c1 9 13 13 13 26a14 14 0 0 1-28 0c0-7 3-11 6-14 1 5 3 7 6 8-1-8 0-14 3-20Z"/><path fill="#7F1D1D" opacity=".35" d="M24 44a7 7 0 0 1-7-7c0-5 4-7 5-11 2 4 9 6 9 11a7 7 0 0 1-7 7Z"/></svg><i class="pg-tile-bubble"></i><i class="pg-tile-ring"></i></span>
+                <span class="pg-tile-name">Fire</span>
+              </button>
+              <button class="pg-tile" type="button" data-fx="ice" aria-pressed="false">
+                <span class="pg-tile-art" style="background:linear-gradient(135deg, #E0F2FE, #7DD3FC, #0EA5E9)" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><g transform="rotate(0 24 24)"><path d="M24 24V5"/><path d="M24 11l-5-5M24 11l5-5"/><path d="M24 18l-4-3M24 18l4-3"/></g><g transform="rotate(60 24 24)"><path d="M24 24V5"/><path d="M24 11l-5-5M24 11l5-5"/><path d="M24 18l-4-3M24 18l4-3"/></g><g transform="rotate(120 24 24)"><path d="M24 24V5"/><path d="M24 11l-5-5M24 11l5-5"/><path d="M24 18l-4-3M24 18l4-3"/></g><g transform="rotate(180 24 24)"><path d="M24 24V5"/><path d="M24 11l-5-5M24 11l5-5"/><path d="M24 18l-4-3M24 18l4-3"/></g><g transform="rotate(240 24 24)"><path d="M24 24V5"/><path d="M24 11l-5-5M24 11l5-5"/><path d="M24 18l-4-3M24 18l4-3"/></g><g transform="rotate(300 24 24)"><path d="M24 24V5"/><path d="M24 11l-5-5M24 11l5-5"/><path d="M24 18l-4-3M24 18l4-3"/></g></svg><i class="pg-tile-bubble"></i><i class="pg-tile-ring"></i></span>
+                <span class="pg-tile-name">Ice</span>
+              </button>
+              <button class="pg-tile" type="button" data-fx="confetti" aria-pressed="false">
+                <span class="pg-tile-art" style="background:linear-gradient(135deg, #FFFFFF, #FCE7F3, #E0E7FF)" aria-hidden="true"><svg viewBox="0 0 48 48"><defs><linearGradient id="pgPop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF2D55"/><stop offset=".5" stop-color="#FF9500"/><stop offset="1" stop-color="#AF52DE"/></linearGradient></defs><g fill="url(#pgPop)"><path d="M5 44 15 15 33 33Z"/><circle cx="31" cy="9" r="3"/><circle cx="41" cy="20" r="2.6"/><circle cx="22" cy="6" r="2"/><path d="M27 21c3-6 9-8 14-6l-1 3c-4-1-8 0-10 5Z"/><path d="M33 4l3 1-2 7-3-1Z"/><path d="M38 28l1 3 7-2-1-3Z"/></g></svg><i class="pg-tile-bubble"></i><i class="pg-tile-ring"></i></span>
+                <span class="pg-tile-name">Confetti</span>
+              </button>
+              <button class="pg-tile" type="button" data-fx="ink" aria-pressed="false">
+                <span class="pg-tile-art" style="background:linear-gradient(135deg, #111827, #374151, #111827)" aria-hidden="true"><svg viewBox="0 0 48 48"><path fill="#fff" fill-opacity=".8" d="M24 12C13 12 6 20 3 24c3 4 10 12 21 12s18-8 21-12c-3-4-10-12-21-12Zm0 19a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/><path stroke="#111827" stroke-width="7" stroke-linecap="round" d="M9 6l30 36"/><path stroke="#fff" stroke-opacity=".8" stroke-width="3.6" stroke-linecap="round" d="M9 6l30 36"/></svg><i class="pg-tile-bubble"></i><i class="pg-tile-ring"></i></span>
+                <span class="pg-tile-name">Invisible Ink</span>
+              </button>
+              <button class="pg-tile" type="button" data-fx="present" aria-pressed="false">
+                <span class="pg-tile-art" style="background:linear-gradient(135deg, #FEF3C7, #FCA5A5, #F472B6)" aria-hidden="true"><svg viewBox="0 0 48 48" fill="#DB2777"><rect x="6" y="17" width="36" height="9" rx="2"/><rect x="9" y="28" width="30" height="16" rx="2"/><path d="M24 17c-4-7-11-10-13-6s4 6 13 6Zm0 0c4-7 11-10 13-6s-4 6-13 6Z"/><rect x="21.5" y="17" width="5" height="27" fill="#FEF3C7"/></svg><i class="pg-tile-bubble"></i><i class="pg-tile-ring"></i></span>
+                <span class="pg-tile-name">Present</span>
+              </button>
             </div>
           </div>
           <div class="pg-chat" aria-live="polite">
+            <canvas class="pg-screen" aria-hidden="true"></canvas>
             <div class="pg-top"><span class="pg-av"></span><div><b>Amara</b><small>● Active</small></div></div>
             <div class="pg-bubble them">Okay… what's the big news?? 👀</div>
-            <div class="pg-bubble me"><span class="pg-text">I got the job!!</span><span class="pg-gift" aria-hidden="true"><i></i></span><span class="pg-ink" aria-hidden="true"></span></div>
+            <div class="pg-me"><div class="pg-bubble me"><span class="pg-text">I got the job!!</span></div></div>
             <p class="pg-hint"></p>
           </div>
         </div>

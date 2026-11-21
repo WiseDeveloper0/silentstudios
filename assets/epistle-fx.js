@@ -128,66 +128,425 @@
     io.observe(grid);
   })();
 
-  /* ---------- Message effects playground ---------- */
+  /* ---------- Message effects playground ----------
+     A direct port of EpistleChat/Chat/MessageEffects.swift: the same tile art, bubble styles,
+     invisible ink, present, and full-screen moments, with the same colors, timings and
+     pseudo-random particle layout. Like the app's "Send with Effect" picker, the selected
+     effect's screen moment loops while the playground is on screen. */
   (() => {
     const pg = $(".playground");
     if (!pg) return;
     const stage = $(".pg-chat", pg);
-    const bubble = $(".pg-bubble.me", pg);
-    const text = $(".pg-text", bubble);
     const input = $(".pg-input", pg);
     const hint = $(".pg-hint", pg);
-    const buttons = $$(".pg-effect", pg);
-    let current = "";
-    const EFFECTS = ["confetti", "fire", "ice", "disco", "ink", "present"];
-    const HINTS = { ink: "Tap the message to reveal it", present: "Tap the present to unwrap it" };
+    const slot = $(".pg-me", pg);
+    const screen = $(".pg-screen", pg);
+    const tiles = $$(".pg-tile", pg);
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
 
-    input.addEventListener("input", () => { text.textContent = input.value.trim() || "…"; });
+    // iOS system colors (light mode), as used by SwiftUI's .red, .pink, etc.
+    const SYS = { red: "#FF3B30", orange: "#FF9500", yellow: "#FFCC00", green: "#34C759", cyan: "#32ADE6", blue: "#007AFF", purple: "#AF52DE", pink: "#FF2D55", gray: "#8E8E93" };
+    const MOMENTS = new Set(["disco", "fire", "ice", "confetti"]);
+    const MOMENT_SECONDS = 3.6; // the picker's looping preview length
+    const TAU = Math.PI * 2;
 
-    const center = () => {
-      const r = bubble.getBoundingClientRect(), sr = stage.getBoundingClientRect();
-      return { x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height / 2 };
+    /** Double.pseudoRandom(_:) — deterministic 0..<1 so particles are stable across frames. */
+    const pr = (seed, salt) => { const v = Math.sin(seed * 12.9898 + salt * 78.233) * 43758.5453; return v - Math.floor(v); };
+    const rgba = (hex, a) => {
+      const n = parseInt(hex.slice(1), 16);
+      return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${Math.max(0, Math.min(1, a))})`;
     };
-    const send = (fx) => {
-      current = fx;
-      EFFECTS.forEach((e) => bubble.classList.remove(`fx-${e}`));
-      bubble.classList.remove("revealed", "unwrapped", "sending");
-      void bubble.offsetWidth;
-      bubble.classList.add("sending", `fx-${fx}`);
-      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.fx === fx)));
-      hint.textContent = HINTS[fx] || "";
-      const c = center();
-      if (fx === "confetti") {
-        setTimeout(() => burst(stage, { ...c, items: ["#f5c6d1", "#a8ecf0", "#8c2a4d", "#ffd166", "#fbeef1"], count: 46, spread: 220, up: 60 }), 250);
-      } else if (fx === "fire") {
-        for (let i = 0; i < 4; i++) setTimeout(() => burst(stage, { x: c.x + rand(-60, 60), y: c.y + 10, items: ["🔥", "🔥", "✨"], count: 4, spread: 30, up: 90, gravity: false, size: [16, 28] }), i * 220);
-      } else if (fx === "ice") {
-        setTimeout(() => burst(stage, { ...c, items: ["❄️", "🧊", "✨"], count: 16, spread: 160, up: 10, size: [12, 22] }), 250);
-      } else if (fx === "disco") {
-        setTimeout(() => burst(stage, { ...c, items: ["🪩", "✨", "🎶", "💜"], count: 14, spread: 170, up: 30 }), 250);
-      }
+    /** Color(hue:saturation:brightness:) */
+    const hsb = (h, s, v, a) => {
+      const f = (n) => { const k = (n + h * 6) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
+      return `rgba(${Math.round(f(5) * 255)},${Math.round(f(3) * 255)},${Math.round(f(1) * 255)},${a})`;
     };
-    buttons.forEach((b) => b.addEventListener("click", () => send(b.dataset.fx)));
-
-    bubble.addEventListener("click", () => {
-      if (current === "ink") {
-        bubble.classList.add("revealed");
-        hint.textContent = "";
+    const roundRect = (ctx, x, y, w, h, r) => {
+      r = Math.min(r, w / 2, h / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    };
+    /** Sizes a canvas to its element (in CSS px, times the screen scale) and clears it. */
+    const fit = (canvas) => {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      const W = Math.max(1, Math.round(w * dpr)), H = Math.max(1, Math.round(h * dpr));
+      if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      return { ctx, w, h };
+    };
+    /** The "snowflake" SF Symbol, drawn as six branched arms filling `size`. */
+    const snowflake = (ctx, cx, cy, size, color, angle = 0) => {
+      const r = size / 2;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = Math.max(1, size * 0.11);
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      for (let k = 0; k < 6; k++) {
+        const a = (k * TAU) / 6, ca = Math.cos(a), sa = Math.sin(a);
+        const pt = (d, off) => [ca * d - sa * off, sa * d + ca * off];
+        ctx.moveTo(0, 0); ctx.lineTo(...pt(r * 0.95, 0));
+        for (const [d, len] of [[0.5, 0.26], [0.75, 0.2]]) {
+          ctx.moveTo(...pt(r * d, 0)); ctx.lineTo(...pt(r * (d + len * 0.7), r * len));
+          ctx.moveTo(...pt(r * d, 0)); ctx.lineTo(...pt(r * (d + len * 0.7), -r * len));
+        }
       }
-      if (current === "present" && !bubble.classList.contains("unwrapped")) {
-        bubble.classList.add("unwrapped");
-        hint.textContent = "";
-        burst(stage, { ...center(), items: ["🎉", "✨", "🎀", "#f5c6d1", "#a8ecf0"], count: 26, spread: 180, up: 40 });
-      }
-    });
+      ctx.stroke();
+      ctx.restore();
+    };
 
-    // Show an effect once when the playground first appears
-    const io = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      setTimeout(() => send("confetti"), 500);
-    }, { threshold: 0.5 });
-    io.observe(pg);
+    let effect = "disco";
+    let parts = {};
+    let momentStart = performance.now();
+    let sparkle = null; // { start, x, y } for the just-opened present
+    let inkTimer = 0;
+    let visible = false;
+    let raf = 0;
+    const messageText = () => input.value.trim() || "Your message";
+
+    /* ----- Bubble styles (EffectBubbleBackground) ----- */
+
+    function drawDisco(t) {
+      const { ctx, w, h } = fit(parts.bg);
+      ctx.save();
+      roundRect(ctx, 0, 0, w, h, 20); ctx.clip();
+      const colors = ["#7C3AED", "#DB2777", "#F59E0B", "#10B981", "#3B82F6", "#7C3AED"];
+      let g;
+      if (ctx.createConicGradient) g = ctx.createConicGradient(((t * 60) * Math.PI) / 180, w / 2, h / 2);
+      else g = ctx.createLinearGradient(0, 0, w, 0);
+      colors.forEach((c, i) => g.addColorStop(i / (colors.length - 1), c));
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      for (let i = 0; i < 10; i++) {
+        const x = pr(i, 1) * w, y = pr(i, 2) * h;
+        const a = Math.max(0, Math.sin(t * 3 + i * 1.7)), r = 1.5 + 1.5 * a;
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function drawFire(t) {
+      const { ctx, w, h } = fit(parts.bg);
+      roundRect(ctx, 0, 0, w, h, 20);
+      const g = ctx.createLinearGradient(0, h, 0, 0);
+      g.addColorStop(0, "#FACC15"); g.addColorStop(0.5, "#F97316"); g.addColorStop(1, "#B91C1C");
+      ctx.fillStyle = g; ctx.fill();
+      // Flames licking off the top edge (a 20px strip, raised 16px).
+      const f = fit(parts.flames), fh = f.h;
+      for (let i = 0; i < 9; i++) {
+        const x = (f.w * (i + 0.5)) / 9;
+        const height = 8 + 10 * Math.abs(Math.sin(t * 5 + i * 2.1));
+        const fg = f.ctx.createLinearGradient(x, fh, x, fh - height);
+        fg.addColorStop(0, "#B91C1C"); fg.addColorStop(0.5, "#F97316"); fg.addColorStop(1, "#FDE047");
+        f.ctx.fillStyle = fg;
+        f.ctx.beginPath();
+        f.ctx.moveTo(x - 6, fh);
+        f.ctx.quadraticCurveTo(x - 7, fh - height * 0.5, x, fh - height);
+        f.ctx.quadraticCurveTo(x + 7, fh - height * 0.5, x + 6, fh);
+        f.ctx.fill();
+      }
+      parts.b.style.boxShadow = `0 0 16px ${rgba(SYS.orange, 0.55 + 0.25 * Math.sin(t * 4))}`;
+    }
+
+    function drawIce(t) {
+      const { ctx, w, h } = fit(parts.bg);
+      ctx.save();
+      roundRect(ctx, 0, 0, w, h, 20); ctx.clip();
+      const g = ctx.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, "#E0F2FE"); g.addColorStop(0.5, "#7DD3FC"); g.addColorStop(1, "#38BDF8");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      // Frost crystals in the corners + a moving glint.
+      snowflake(ctx, 4 + 5, 3 + 5, 10, "rgba(255,255,255,0.8)");
+      snowflake(ctx, w - 14 + 4.5, h - 13 + 4.5, 9, "rgba(255,255,255,0.8)");
+      const gx = ((t * 60) % (w + 80)) - 40;
+      const glint = ctx.createLinearGradient(gx, 0, gx + 18, 0);
+      glint.addColorStop(0, "rgba(255,255,255,0)"); glint.addColorStop(0.5, "rgba(255,255,255,0.6)"); glint.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = glint; ctx.fillRect(gx, 0, 18, h);
+      ctx.restore();
+      roundRect(ctx, 0.75, 0.75, w - 1.5, h - 1.5, 19.25);
+      ctx.strokeStyle = "rgba(255,255,255,0.8)"; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+
+    /* ----- Invisible ink ----- */
+
+    function drawInk(t) {
+      const { ctx, w, h } = fit(parts.ink);
+      roundRect(ctx, 0, 0, w, h, 20);
+      ctx.fillStyle = "rgba(79,70,229,0.85)"; // #4F46E5 at 85%
+      ctx.fill();
+      const count = Math.floor((w * h) / 40);
+      for (let i = 0; i < count; i++) {
+        const x = (pr(i, 1) * w + Math.sin(t * 1.3 + i) * 3) % w;
+        const y = (pr(i, 2) * h + Math.cos(t * 1.1 + i) * 3) % h;
+        ctx.fillStyle = `rgba(255,255,255,${0.35 + 0.65 * Math.abs(Math.sin(t * 2 + i))})`;
+        ctx.beginPath(); ctx.arc(x + 0.8, y + 0.8, 0.8, 0, TAU); ctx.fill();
+      }
+    }
+
+    function revealInk() {
+      if (!parts.b || parts.b.classList.contains("revealed")) return;
+      parts.b.classList.add("revealed");
+      parts.b.setAttribute("aria-label", messageText());
+      hint.textContent = "";
+      clearTimeout(inkTimer);
+      inkTimer = setTimeout(() => {
+        if (!parts.b) return;
+        parts.b.classList.remove("revealed");
+        parts.b.setAttribute("aria-label", "Hidden message. Tap to reveal");
+        hint.textContent = "Tap the message to reveal it";
+      }, 5000);
+    }
+
+    /* ----- Full-screen moments (ScreenEffectOverlay) ----- */
+
+    function drawMoment(ctx, w, h, t, kind) {
+      const duration = MOMENT_SECONDS;
+      const fadeIn = Math.min(1, t / 0.3);
+      const fadeOut = Math.min(1, Math.max(0, (duration - t) / 0.7));
+      const alpha = fadeIn * fadeOut;
+
+      if (kind === "disco") {
+        // Party tint that pulses through colors.
+        ctx.fillStyle = hsb((t * 0.35) % 1, 0.7, 0.5, 0.22 * alpha);
+        ctx.fillRect(0, 0, w, h);
+        // Ball drops in from the top and spins.
+        const R = 46, drop = Math.min(1, t / 0.8);
+        const cx = w / 2, cy = -R + (R + 150) * (1 - Math.pow(1 - drop, 3));
+        ctx.strokeStyle = rgba(SYS.gray, alpha); ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, cy - R); ctx.stroke();
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.clip();
+        ctx.fillStyle = "#9CA3AF"; ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
+        const facet = 9, spin = (t * 40) % facet;
+        for (let row = 0, y = cy - R; y < cy + R; y += facet, row++) {
+          for (let col = 0, x = cx - R - facet + spin; x < cx + R; x += facet, col++) {
+            const shimmer = Math.abs(Math.sin(t * 4 + (row * 7 + col * 3)));
+            ctx.fillStyle = `rgba(255,255,255,${0.25 + 0.7 * shimmer})`;
+            ctx.fillRect(x + 0.8, y + 0.8, facet - 1.6, facet - 1.6);
+          }
+        }
+        ctx.restore();
+        // Light spots sweeping around the room.
+        const spots = [SYS.pink, SYS.cyan, SYS.yellow, SYS.purple, SYS.green, SYS.orange];
+        for (let i = 0; i < 36; i++) {
+          const angle = (i / 36) * TAU + t * 0.9;
+          const radius = w * (0.3 + pr(i, 1) * 0.6);
+          const x = cx + Math.cos(angle) * radius, y = cy + 120 + Math.sin(angle) * radius * 1.4;
+          const r = 4 + pr(i, 2) * 6;
+          ctx.fillStyle = rgba(spots[i % spots.length], 0.75 * alpha);
+          ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+        }
+      } else if (kind === "fire") {
+        // Heat glow rising from the bottom.
+        const glow = h * 0.45 * Math.min(1, t / 0.8);
+        if (glow > 0) {
+          const g = ctx.createLinearGradient(0, h - glow, 0, h);
+          g.addColorStop(0, "rgba(249,115,22,0)");
+          g.addColorStop(0.5, rgba("#F97316", 0.35 * alpha));
+          g.addColorStop(1, rgba("#B91C1C", 0.55 * alpha));
+          ctx.fillStyle = g; ctx.fillRect(0, h - glow, w, glow);
+        }
+        // Embers drifting up.
+        for (let i = 0; i < 90; i++) {
+          const life = 1.6 + pr(i, 3) * 1.4;
+          const local = (t + pr(i, 4) * life) % life;
+          const x = pr(i, 1) * w + Math.sin(local * 3 + i) * 22;
+          const y = h - (local / life) * h * (0.5 + pr(i, 2) * 0.5);
+          const flicker = 0.5 + 0.5 * Math.abs(Math.sin(t * 9 + i));
+          const r = 1.5 + pr(i, 5) * 3;
+          ctx.fillStyle = rgba(i % 3 === 0 ? "#FDE047" : "#F97316", flicker * (1 - local / life) * alpha);
+          ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+        }
+      } else if (kind === "ice") {
+        // Frost creeping in from the edges.
+        const frost = 0.6 * Math.min(1, t / 1.0) * fadeOut;
+        const edge = w * 0.35;
+        let g = ctx.createLinearGradient(0, 0, edge, 0);
+        g.addColorStop(0, `rgba(255,255,255,${frost})`); g.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = g; ctx.fillRect(0, 0, edge, h);
+        g = ctx.createLinearGradient(w - edge, 0, w, 0);
+        g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(1, `rgba(255,255,255,${frost})`);
+        ctx.fillStyle = g; ctx.fillRect(w - edge, 0, edge, h);
+        g = ctx.createLinearGradient(0, 0, 0, edge);
+        g.addColorStop(0, rgba("#BAE6FD", frost)); g.addColorStop(1, "rgba(186,230,253,0)");
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, edge);
+        // Snowflakes falling and turning.
+        for (let i = 0; i < 45; i++) {
+          const local = Math.max(0, t - pr(i, 3) * 1.2);
+          const x = pr(i, 1) * w + Math.sin(local * 1.5 + i) * 30;
+          const y = -20 + local * (110 + pr(i, 2) * 120);
+          const size = 10 + pr(i, 5) * 16;
+          snowflake(ctx, x, y, size, `rgba(255,255,255,${alpha * 0.95})`, local * (1 + pr(i, 4)));
+        }
+      } else if (kind === "confetti") {
+        const colors = [SYS.red, SYS.orange, SYS.yellow, SYS.green, SYS.cyan, SYS.blue, SYS.purple, SYS.pink];
+        // Rain from the top…
+        for (let i = 0; i < 120; i++) {
+          const local = Math.max(0, t - pr(i, 3) * 0.9);
+          const x = pr(i, 1) * w + Math.sin(local * 3 + i) * 25;
+          const y = -20 + local * (170 + pr(i, 2) * 200);
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(local * (4 + pr(i, 4) * 6));
+          ctx.scale(Math.cos(local * 5 + i), 1); // flutter
+          ctx.globalAlpha = fadeOut;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(-4, -2.5, 8, 5);
+          ctx.restore();
+        }
+        // …plus two cannons from the bottom corners.
+        for (let i = 0; i < 60; i++) {
+          const fromLeft = i % 2 === 0;
+          const angle = (fromLeft ? -1.15 : -1.99) + (pr(i, 6) - 0.5) * 0.5;
+          const speed = 520 + pr(i, 7) * 300;
+          const x = (fromLeft ? 0 : w) + Math.cos(angle) * speed * t;
+          const y = h + Math.sin(angle) * speed * t + 380 * t * t;
+          ctx.globalAlpha = fadeOut;
+          ctx.fillStyle = colors[(i + 3) % colors.length];
+          ctx.beginPath(); ctx.arc(x, y, 3.5, 0, TAU); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+    }
+
+    /** SparkleBurst: 26 dots flying out of a just-opened present for 1.4s. */
+    function drawSparkle(ctx, now) {
+      const t = (now - sparkle.start) / 1000;
+      if (t >= 1.4) { sparkle = null; return; }
+      const colors = [SYS.yellow, SYS.pink, SYS.orange, SYS.purple, SYS.cyan];
+      for (let i = 0; i < 26; i++) {
+        const angle = (i / 26) * TAU;
+        const distance = t * (120 + pr(i, 1) * 80);
+        const x = sparkle.x + Math.cos(angle) * distance;
+        const y = sparkle.y + Math.sin(angle) * distance + t * t * 60;
+        ctx.fillStyle = rgba(colors[i % colors.length], Math.max(0, 1 - t / 1.4));
+        ctx.beginPath(); ctx.arc(x, y, 3, 0, TAU); ctx.fill();
+      }
+    }
+
+    /* ----- Building the bubble / present ----- */
+
+    function bubble(kind) {
+      const b = document.createElement("div");
+      b.className = `pg-bubble me fx-${kind}`;
+      const label = document.createElement("span");
+      label.className = "pg-text";
+      label.textContent = messageText();
+      parts = { b, label };
+      if (kind === "disco" || kind === "fire" || kind === "ice") {
+        parts.bg = document.createElement("canvas");
+        parts.bg.className = "pg-bg";
+        b.append(parts.bg);
+      }
+      if (kind === "fire") {
+        parts.flames = document.createElement("canvas");
+        parts.flames.className = "pg-flames";
+        b.append(parts.flames);
+      }
+      b.append(label);
+      if (kind === "ink") {
+        parts.ink = document.createElement("canvas");
+        parts.ink.className = "pg-inkfx";
+        b.append(parts.ink);
+        b.tabIndex = 0;
+        b.setAttribute("role", "button");
+        b.setAttribute("aria-label", "Hidden message. Tap to reveal");
+        b.addEventListener("click", revealInk);
+        b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); revealInk(); } });
+      }
+      return b;
+    }
+
+    function present() {
+      const gift = document.createElement("div");
+      gift.className = "pg-gift";
+      gift.tabIndex = 0;
+      gift.setAttribute("role", "button");
+      gift.setAttribute("aria-label", "Gift message. Tap to open");
+      gift.innerHTML =
+        '<div class="pg-gift-wiggle"><div class="pg-gift-art">' +
+        '<div class="pg-gift-box"></div>' +
+        '<div class="pg-gift-lid"><span class="pg-gift-bow l"></span><span class="pg-gift-bow r"></span><div class="pg-gift-cap"></div></div>' +
+        "</div></div><small>Tap to open</small>";
+      let opening = false;
+      const open = () => {
+        if (opening) return;
+        opening = true;
+        const wiggle = $(".pg-gift-wiggle", gift);
+        wiggle.animate(
+          [{ transform: "rotate(0)" }, { transform: "rotate(-12deg)" }, { transform: "rotate(12deg)" }, { transform: "rotate(-10deg)" }, { transform: "rotate(10deg)" }, { transform: "rotate(0)" }],
+          { duration: reduce ? 0 : 400, easing: "ease-in-out" },
+        );
+        setTimeout(() => gift.classList.add("lid-off"), reduce ? 0 : 420);
+        setTimeout(() => {
+          const b = bubble("none");
+          slot.replaceChildren(b);
+          slot.classList.remove("swap"); void slot.offsetWidth; slot.classList.add("swap");
+          const r = b.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+          if (!reduce) sparkle = { start: performance.now(), x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height / 2 };
+          kick();
+        }, reduce ? 0 : 720);
+      };
+      gift.addEventListener("click", open);
+      gift.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+      parts = {};
+      return gift;
+    }
+
+    function select(kind) {
+      effect = kind;
+      clearTimeout(inkTimer);
+      sparkle = null;
+      momentStart = performance.now();
+      tiles.forEach((tile) => tile.setAttribute("aria-pressed", String(tile.dataset.fx === kind)));
+      slot.replaceChildren(kind === "present" ? present() : bubble(kind));
+      slot.classList.remove("swap"); void slot.offsetWidth; slot.classList.add("swap");
+      hint.textContent = kind === "ink" ? "Tap the message to reveal it" : "";
+      kick();
+    }
+
+    /* ----- One animation loop for everything, only while the playground is on screen ----- */
+
+    function frame(now) {
+      raf = 0;
+      const t = reduce ? 0 : now / 1000;
+      if (effect === "disco" && parts.bg) drawDisco(t);
+      if (effect === "fire" && parts.bg) drawFire(t);
+      if (effect === "ice" && parts.bg) drawIce(t);
+      if (effect === "ink" && parts.ink) drawInk(t);
+
+      const { ctx, w, h } = fit(screen);
+      if (!reduce && MOMENTS.has(effect)) {
+        let local = (now - momentStart) / 1000;
+        if (local >= MOMENT_SECONDS) { momentStart = now; local = 0; } // replay, like the picker
+        drawMoment(ctx, w, h, local, effect);
+      }
+      if (sparkle) drawSparkle(ctx, now);
+
+      // Keep going while something moves; with reduced motion, draw once and stop.
+      if (visible && (!reduce || sparkle)) raf = requestAnimationFrame(frame);
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
+
+    input.addEventListener("input", () => { if (parts.label) parts.label.textContent = messageText(); });
+    tiles.forEach((tile) => tile.addEventListener("click", () => select(tile.dataset.fx)));
+
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) { momentStart = performance.now(); kick(); }
+    }, { threshold: 0.25 }).observe(pg);
+
+    select("disco");
   })();
 
   /* ---------- Phones move with the scroll ---------- */
