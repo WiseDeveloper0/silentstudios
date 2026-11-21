@@ -83,14 +83,14 @@
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const wide = w >= 1000;
+      // Phones/tablets: the sculpture gets its own space under the buttons (see .hero padding)
       cx = wide ? w * 0.78 : w * 0.5;
-      cy = wide ? h * 0.4 : h * 0.3;
-      size = wide ? Math.min(w * 0.28, h * 0.5, 420) : Math.min(w * 0.85, 330);
-      alpha = wide ? 1 : 0.38;
+      cy = wide ? h * 0.4 : h - 190;
+      size = wide ? Math.min(w * 0.28, h * 0.5, 420) : Math.min(w * 0.62, 250);
+      alpha = 1;
       if (caption) {
         caption.style.left = `${cx}px`;
-        caption.style.top = `${cy - size * 0.5 - 52}px`;
-        caption.hidden = !wide;
+        caption.style.top = `${cy - size * 0.5 - (wide ? 52 : 40)}px`;
       }
     };
     resize();
@@ -112,6 +112,22 @@
     const local = (e) => { const r = canvas.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
     hero.addEventListener("pointermove", (e) => { [mx, my] = local(e); });
     hero.addEventListener("pointerleave", () => { mx = my = -1e4; });
+    // Touch: dragging a finger through the sculpture scatters it
+    let touchTimer = 0;
+    const touch = (e) => {
+      const t0 = e.touches[0];
+      if (!t0) return;
+      [mx, my] = local(t0);
+      clearTimeout(touchTimer);
+    };
+    hero.addEventListener("touchstart", touch, { passive: true });
+    hero.addEventListener("touchmove", touch, { passive: true });
+    hero.addEventListener("touchend", () => { touchTimer = setTimeout(() => (mx = my = -1e4), 250); }, { passive: true });
+    // Tilting the phone sways the sculpture (where the browser allows it)
+    let tilt = 0;
+    addEventListener("deviceorientation", (e) => {
+      if (e.gamma != null) tilt = clamp(e.gamma / 45, -1, 1) * 0.6;
+    });
     hero.addEventListener("click", (e) => {
       if (e.target.closest("a, button")) return;
       const [x, y] = local(e);
@@ -132,7 +148,7 @@
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = "lighter";
       const tg = targets[shape];
-      const rot = Math.sin(t * 0.0006) * 0.55, cos = Math.cos(rot), sin = Math.sin(rot);
+      const rot = Math.sin(t * 0.0006) * 0.55 + tilt, cos = Math.cos(rot), sin = Math.sin(rot);
       for (let i = 0; i < N; i++) {
         const p = P[i], u = tg[i];
         const persp = 1 / (1 + u[0] * sin * 0.9);
@@ -195,7 +211,17 @@
         el.appendChild(word);
       });
     });
-    if (!fine) return;
+    const chars = $$(".ch", h1);
+    const pop = (c) => { c.classList.remove("pop"); void c.offsetWidth; c.classList.add("pop"); };
+    const wave = () => chars.forEach((c, i) => setTimeout(() => pop(c), i * 45));
+    setTimeout(wave, 1300);
+    h1.addEventListener("click", wave);
+    if (!fine) {
+      let heroVisible = true;
+      onScreen(h1, (v) => (heroVisible = v));
+      setInterval(() => heroVisible && !document.hidden && wave(), 7000);
+      return;
+    }
     const hero = h1.closest(".hero");
     hero.addEventListener("pointermove", (e) => {
       const x = e.clientX / innerWidth - 0.5, y = e.clientY / innerHeight - 0.5;
@@ -259,8 +285,9 @@
   })();
 
   /* ---------- 3D tilt on cards ---------- */
+  const TILT = ".product, .value, .group, .feature, .extra, .style-card";
   if (fine && !reduce) {
-    $$(".product, .value").forEach((card) => {
+    $$(TILT).forEach((card) => {
       card.addEventListener("pointermove", (e) => {
         const r = card.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
@@ -276,6 +303,38 @@
         card.style.setProperty("--py", "0px");
       });
     });
+  }
+
+  // Touch screens: cards swing gently in 3D as they scroll past
+  if (!fine && !reduce) {
+    const cards = $$(TILT);
+    let ticking = false;
+    const swing = () => {
+      ticking = false;
+      const mid = innerHeight / 2;
+      cards.forEach((card) => {
+        if (card.classList.contains("reveal") && !card.classList.contains("in")) return;
+        const r = card.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        const k = clamp((r.top + r.height / 2 - mid) / innerHeight, -1, 1);
+        card.style.transform = `perspective(900px) rotateX(${k * -10}deg) scale(${1 - Math.abs(k) * 0.05})`;
+      });
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(swing); } }, { passive: true });
+    setTimeout(swing, 1200);
+  }
+
+  /* Tap ripple on touch screens */
+  if (!fine && !reduce) {
+    addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "touch") return;
+      const r = document.createElement("span");
+      r.className = "tap-ripple";
+      r.style.left = `${e.clientX}px`;
+      r.style.top = `${e.clientY}px`;
+      document.body.appendChild(r);
+      r.addEventListener("animationend", () => r.remove());
+    }, { passive: true });
   }
 
   /* Whole product card is clickable */
@@ -348,7 +407,7 @@
   /* ---------- Footer wordmark reacts to the cursor ---------- */
   (() => {
     const fw = $(".footer-word");
-    if (!fw || !fine || reduce) return;
+    if (!fw || reduce) return;
     const letters = [...fw.textContent];
     fw.textContent = "";
     fw.classList.add("split");
@@ -358,8 +417,15 @@
       fw.appendChild(s);
       return s;
     });
-    let visible = false, raf = 0;
-    onScreen(fw, (v) => (visible = v));
+    let visible = false, raf = 0, waved = false;
+    const wave = () => spans.forEach((s, i) => {
+      s.classList.remove("wave"); void s.offsetWidth;
+      s.style.animationDelay = `${i * 60}ms`;
+      s.classList.add("wave");
+    });
+    onScreen(fw, (v) => { visible = v; if (v && !waved) { waved = true; wave(); } });
+    fw.addEventListener("click", wave);
+    if (!fine) return;
     addEventListener("pointermove", (e) => {
       if (!visible || raf) return;
       raf = requestAnimationFrame(() => {

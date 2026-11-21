@@ -155,7 +155,33 @@
           </div>
         </div>
 
-        <div class="features" data-list="epistlechat.features" style="margin-top:clamp(48px,7vw,88px)">
+        <div class="card playground reveal">
+          <div class="pg-info">
+            <span class="eyebrow">Try it</span>
+            <h3>Message effects</h3>
+            <p>Type something, pick an effect, and watch it arrive the way it will in EpistleChat.</p>
+          </div>
+          <div class="pg-controls">
+            <label class="pg-label" for="pg-input">Your message</label>
+            <input class="input pg-input" id="pg-input" maxlength="48" value="I got the job!!" autocomplete="off" />
+            <div class="pg-effects" role="group" aria-label="Message effects">
+              <button class="pg-effect" type="button" data-fx="confetti" aria-pressed="false"><span>🎉</span>Confetti</button>
+              <button class="pg-effect" type="button" data-fx="fire" aria-pressed="false"><span>🔥</span>Fire</button>
+              <button class="pg-effect" type="button" data-fx="ice" aria-pressed="false"><span>🧊</span>Ice</button>
+              <button class="pg-effect" type="button" data-fx="disco" aria-pressed="false"><span>🪩</span>Disco</button>
+              <button class="pg-effect" type="button" data-fx="ink" aria-pressed="false"><span>🫥</span>Invisible Ink</button>
+              <button class="pg-effect" type="button" data-fx="present" aria-pressed="false"><span>🎁</span>Present</button>
+            </div>
+          </div>
+          <div class="pg-chat" aria-live="polite">
+            <div class="pg-top"><span class="pg-av"></span><div><b>Amara</b><small>● Active</small></div></div>
+            <div class="pg-bubble them">Okay… what's the big news?? 👀</div>
+            <div class="pg-bubble me"><span class="pg-text">I got the job!!</span><span class="pg-gift" aria-hidden="true"><i></i></span><span class="pg-ink" aria-hidden="true"></span></div>
+            <p class="pg-hint"></p>
+          </div>
+        </div>
+
+        <div class="features" data-list="epistlechat.features" style="margin-top:20px">
           <article class="card feature reveal" style="--delay:0.00s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><path d="m12 8 1.2 2.8L16 12l-2.8 1.2L12 16l-1.2-2.8L8 12l2.8-1.2Z"/></svg></div><h3>Message effects</h3><p>Confetti, Fire, Ice, Disco, Invisible Ink, or wrapped as a Present.</p></article>
           <article class="card feature reveal" style="--delay:0.08s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/></svg></div><h3>Draw together</h3><p>Doodle with each other right on the chat background.</p></article>
           <article class="card feature reveal" style="--delay:0.16s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></div><h3>Voice, photos &amp; polls</h3><p>Voice messages, photos, polls, reactions and @mentions.</p></article>
@@ -211,5 +237,6 @@
   <script src="assets/content.js"></script>
   <script src="assets/main.js"></script>
   <script src="assets/fx.js"></script>
+  <script src="assets/epistle-fx.js"></script>
 </body>
 </html>
