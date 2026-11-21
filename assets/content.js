@@ -19,6 +19,7 @@
   const get = (obj, path) => path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
 
   const ICONS = {
+    store: '<path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v8h13v-8M10 20v-4.5h4V20"/>',
     send: '<path d="M7 7h11l-3-3M17 17H6l3 3"/>',
     wallet: '<rect x="3.5" y="6" width="17" height="13" rx="2.5"/><path d="M3.5 9.5h17M16 14h1.5"/><path d="M6 6l9-2.5 1 2.5"/>',
     coin: '<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.4 0-2.5.7-2.5 1.9 0 2.8 5.2 1.4 5.2 4.2 0 1.2-1.2 1.9-2.7 1.9-1.2 0-2.1-.5-2.6-1.3M12 6.5V8M12 16v1.5"/>',
@@ -70,7 +71,7 @@
         <span class="group-emoji">${esc(g.emoji)}</span><h3>${esc(g.title)}</h3>${g.text ? `<p>${esc(g.text)}</p>` : ""}
         <ul>${(g.points || []).map((pt) => `<li>${esc(pt)}</li>`).join("")}</ul></article>`).join(""),
     "kraylus.explore": (items) =>
-      items.map((f, i) => `<article class="card feature reveal" style="--delay:${((i % 4) * 0.08).toFixed(2)}s">
+      items.map((f, i) => `<article class="card feature reveal" style="--delay:${((i % 5) * 0.08).toFixed(2)}s">
         <div class="ic cyan">${svg(f.icon)}</div><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></article>`).join(""),
     "kraylus.roadmap": (items) =>
       items.map((r, i) => `<div class="tl-item${r.done ? " done" : ""} reveal" style="--delay:${(i * 0.08).toFixed(2)}s${i === items.length - 1 ? ";padding-bottom:0" : ""}">

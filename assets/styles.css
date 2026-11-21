@@ -1054,9 +1054,9 @@ section { position: relative; }
 
 /* Kraylus */
 .tagline.cyan { color: var(--cyan-300); }
-.features.four { grid-template-columns: repeat(4, 1fr); }
-@media (max-width: 1000px) { .features.four { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .features.four { grid-template-columns: 1fr; } }
+.features.five { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+@media (max-width: 1000px) { .features.five { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .features.five { grid-template-columns: 1fr; } }
 .feature .ic.cyan { color: var(--cyan-300); background: rgba(168,236,240,0.08); border-color: rgba(168,236,240,0.3); }
 .fine-print { margin: 36px 0 0; font-size: 13px; color: var(--text-faint); max-width: 56ch; }
 

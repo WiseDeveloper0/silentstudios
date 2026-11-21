@@ -152,7 +152,7 @@ content:
             label: Icon
             type: select
             options:
-              values: [send, wallet, coin, shield, chart, lock, star, globe, people]
+              values: [send, wallet, coin, store, shield, chart, lock, star, globe, people]
           - { name: title, label: Title, type: string }
           - { name: text, label: Text, type: text }
       - { name: note, label: "Small print under the roadmap", type: text }

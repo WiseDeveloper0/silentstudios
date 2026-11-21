@@ -1,7 +1,7 @@
 {
   "status": "Not yet in development",
   "tagline": "Money, minus the noise.",
-  "intro": "Kraylus is our next app: one calm, secure place to pay, get paid and manage your money, from everyday payments to digital assets. It's still on the drawing board, and we'll share more as it takes shape.",
+  "intro": "Kraylus is our next app: one calm, secure place to pay, get paid and manage your money, from everyday payments and digital assets to a point of sale for your business. It's still on the drawing board, and we'll share more as it takes shape.",
   "explore_title": "What we're exploring",
   "explore": [
     {
@@ -18,6 +18,11 @@
       "icon": "coin",
       "title": "Digital assets",
       "text": "Buy, hold and keep track of crypto alongside your everyday money."
+    },
+    {
+      "icon": "store",
+      "title": "Point of sale",
+      "text": "Turn your phone into a checkout and take payments at your shop, café or market stall."
     },
     {
       "icon": "shield",
