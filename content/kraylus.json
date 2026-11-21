@@ -1,6 +1,31 @@
 {
   "status": "Not yet in development",
-  "intro": "Our next app is still an idea on the whiteboard. We're not ready to say much yet, but we will share the journey here as it takes shape.",
+  "tagline": "Money, minus the noise.",
+  "intro": "Kraylus is our next app: one calm, secure place to pay, get paid and manage your money, from everyday payments to digital assets. It's still on the drawing board, and we'll share more as it takes shape.",
+  "explore_title": "What we're exploring",
+  "explore": [
+    {
+      "icon": "send",
+      "title": "Send & receive",
+      "text": "Pay friends, split costs and get paid in a couple of taps."
+    },
+    {
+      "icon": "wallet",
+      "title": "One wallet",
+      "text": "Your balances and payments together, easy to read at a glance."
+    },
+    {
+      "icon": "coin",
+      "title": "Digital assets",
+      "text": "Buy, hold and keep track of crypto alongside your everyday money."
+    },
+    {
+      "icon": "shield",
+      "title": "Security first",
+      "text": "The same privacy-first standard as everything we build. Your money, your data."
+    }
+  ],
+  "note": "Kraylus is in the concept stage and isn't available yet. Features and availability may change before launch.",
   "roadmap": [
     {
       "when": "Now",

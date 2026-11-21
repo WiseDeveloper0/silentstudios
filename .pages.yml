@@ -140,7 +140,22 @@ content:
     format: json
     fields:
       - { name: status, label: Status pill, type: string }
+      - { name: tagline, label: "Tagline (under the title)", type: string }
       - { name: intro, label: Intro paragraph, type: text }
+      - { name: explore_title, label: "Ideas: heading", type: string }
+      - name: explore
+        label: "Ideas: cards"
+        type: object
+        list: true
+        fields:
+          - name: icon
+            label: Icon
+            type: select
+            options:
+              values: [send, wallet, coin, shield, chart, lock, star, globe, people]
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+      - { name: note, label: "Small print under the roadmap", type: text }
       - name: roadmap
         label: Roadmap
         type: object

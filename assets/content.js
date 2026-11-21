@@ -19,6 +19,11 @@
   const get = (obj, path) => path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
 
   const ICONS = {
+    send: '<path d="M7 7h11l-3-3M17 17H6l3 3"/>',
+    wallet: '<rect x="3.5" y="6" width="17" height="13" rx="2.5"/><path d="M3.5 9.5h17M16 14h1.5"/><path d="M6 6l9-2.5 1 2.5"/>',
+    coin: '<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.4 0-2.5.7-2.5 1.9 0 2.8 5.2 1.4 5.2 4.2 0 1.2-1.2 1.9-2.7 1.9-1.2 0-2.1-.5-2.6-1.3M12 6.5V8M12 16v1.5"/>',
+    shield: '<path d="M12 3 5 6v5.5c0 4.3 3 7.6 7 9.5 4-1.9 7-5.2 7-9.5V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
+    chart: '<path d="M4 19h16M7 15l4-4 3 3 5-6"/>',
     mailbox: '<path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M4 9l2-5h12l2 5M9 13h6"/>',
     pip: '<circle cx="12" cy="13" r="7"/><circle cx="9.5" cy="12" r=".7" fill="currentColor"/><circle cx="14.5" cy="12" r=".7" fill="currentColor"/><path d="M10.5 15.5h3M7 7.5 5.5 5M17 7.5 18.5 5"/>',
     check: '<path d="M3 12.5 8 17 21 5"/><path d="m11 15 2 2 8-9"/>',
@@ -64,6 +69,9 @@
       items.map((g, i) => `<article class="card group reveal" style="${delay(i)}">
         <span class="group-emoji">${esc(g.emoji)}</span><h3>${esc(g.title)}</h3>${g.text ? `<p>${esc(g.text)}</p>` : ""}
         <ul>${(g.points || []).map((pt) => `<li>${esc(pt)}</li>`).join("")}</ul></article>`).join(""),
+    "kraylus.explore": (items) =>
+      items.map((f, i) => `<article class="card feature reveal" style="--delay:${((i % 4) * 0.08).toFixed(2)}s">
+        <div class="ic cyan">${svg(f.icon)}</div><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p></article>`).join(""),
     "kraylus.roadmap": (items) =>
       items.map((r, i) => `<div class="tl-item${r.done ? " done" : ""} reveal" style="--delay:${(i * 0.08).toFixed(2)}s${i === items.length - 1 ? ";padding-bottom:0" : ""}">
         <small>${esc(r.when)}</small><h3>${esc(r.title)}</h3><p>${esc(r.text)}</p></div>`).join(""),
