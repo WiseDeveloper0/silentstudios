@@ -1,0 +1,12 @@
+# Cloudflare Pages response headers
+# Keep the legal pages out of search results (they're only reachable by direct link).
+/privacy
+  X-Robots-Tag: noindex, nofollow, noarchive
+/privacy.html
+  X-Robots-Tag: noindex, nofollow, noarchive
+/terms
+  X-Robots-Tag: noindex, nofollow, noarchive
+/terms.html
+  X-Robots-Tag: noindex, nofollow, noarchive
+/admin/*
+  X-Robots-Tag: noindex, nofollow

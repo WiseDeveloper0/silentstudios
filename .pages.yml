@@ -193,3 +193,25 @@ content:
             label: Answer
             type: text
             description: "Links: [link text](page.html)"
+
+  - name: privacy
+    label: Privacy Policy (hidden page)
+    type: file
+    path: content/privacy.json
+    format: json
+    fields:
+      - { name: title, label: Title, type: string }
+      - { name: updated, label: "Last updated (e.g. 22 November 2026)", type: string }
+      - { name: intro, label: Short summary, type: text }
+      - { name: body, label: Policy text, type: rich-text }
+
+  - name: terms
+    label: Terms of Service (hidden page)
+    type: file
+    path: content/terms.json
+    format: json
+    fields:
+      - { name: title, label: Title, type: string }
+      - { name: updated, label: "Last updated (e.g. 22 November 2026)", type: string }
+      - { name: intro, label: Short summary, type: text }
+      - { name: body, label: Terms text, type: rich-text }

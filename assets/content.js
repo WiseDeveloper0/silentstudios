@@ -93,6 +93,11 @@
       const v = get(data, el.dataset.cSrc);
       if (typeof v === "string" && v.trim()) el.src = v.replace(/^\//, "");
     });
+    // formatted text from the editor's rich-text fields (legal pages)
+    document.querySelectorAll("[data-c-html]").forEach((el) => {
+      const v = get(data, el.dataset.cHtml);
+      if (typeof v === "string" && v.trim()) el.innerHTML = v;
+    });
     // statement: *pink* and _cyan_ highlights
     document.querySelectorAll("[data-c-rich]").forEach((el) => {
       const v = get(data, el.dataset.cRich);
