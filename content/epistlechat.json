@@ -81,8 +81,6 @@
   ],
   "chat_title": "Chats with personality.",
   "chat_intro": "Everyday messages, with the fun turned back on.",
-  "chats_screenshot": "assets/epistle/chats.webp",
-  "conversation_screenshot": "assets/epistle/conversation.webp",
   "features": [
     {
       "icon": "sparkle",

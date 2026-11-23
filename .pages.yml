@@ -110,8 +110,6 @@ content:
           - { name: text, label: Text, type: text }
       - { name: chat_title, label: "Chat: heading", type: string }
       - { name: chat_intro, label: "Chat: intro", type: text }
-      - { name: chats_screenshot, label: "Chat: left screenshot", type: image }
-      - { name: conversation_screenshot, label: "Chat: right screenshot", type: image }
       - name: features
         label: "Chat: features"
         type: object
