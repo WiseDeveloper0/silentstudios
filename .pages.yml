@@ -20,6 +20,10 @@ content:
         label: Waitlist form link (Formspree)
         type: string
         description: Paste your Formspree form URL, e.g. https://formspree.io/f/abcdefg. Leave empty for demo mode.
+      - name: referral_endpoint
+        label: Waitlist referral counter (optional)
+        type: string
+        description: The EpistleChat Worker's waitlist address, e.g. https://epistle-files.epistle-app.workers.dev/v1/waitlist. Leave empty and referral links still work, but the "friends joined" counter is hidden.
       - name: contact_endpoint
         label: Contact form link (optional)
         type: string

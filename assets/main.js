@@ -15,6 +15,7 @@ const SITE_CONFIG = {
   waitlistEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx"
   contactEndpoint: "",  // optional; when empty, contact messages go to contactEmail via FormSubmit
   contactEmail: "support@silentstudios.online",
+  referralEndpoint: "", // EpistleChat Worker, e.g. "https://…workers.dev/v1/waitlist"
 };
 
 (window.SS_CONTENT_READY || Promise.resolve()).then(() => {
@@ -22,6 +23,7 @@ if (window.SS_SITE) {
   SITE_CONFIG.waitlistEndpoint = window.SS_SITE.waitlist_endpoint || SITE_CONFIG.waitlistEndpoint;
   SITE_CONFIG.contactEndpoint = window.SS_SITE.contact_endpoint || SITE_CONFIG.contactEndpoint;
   SITE_CONFIG.contactEmail = window.SS_SITE.contact_email || SITE_CONFIG.contactEmail;
+  SITE_CONFIG.referralEndpoint = window.SS_SITE.referral_endpoint || SITE_CONFIG.referralEndpoint;
 }
 // No custom contact endpoint? Deliver messages straight to the contact inbox via FormSubmit.
 if (!SITE_CONFIG.contactEndpoint && SITE_CONFIG.contactEmail) {
@@ -351,6 +353,17 @@ async function submitTo(endpoint, data, storageKey, { allowDemo = true } = {}) {
   const state = { email: "", device: "" };
   let idx = 0;
 
+  // Who sent them here? ?ref=<code> comes from a waitlist friend, ?invite=<username> from the app.
+  const params = new URLSearchParams(location.search);
+  const store = (k, v) => { try { v ? localStorage.setItem(k, v) : 0; return localStorage.getItem(k) || ""; } catch (_) { return v || ""; } };
+  const ref = store("ss_wl_ref", /^[a-z0-9]{8}$/.test(params.get("ref") || "") ? params.get("ref") : "");
+  const invitedBy = store("ss_wl_invite", (params.get("invite") || "").replace(/[^A-Za-z0-9_.]/g, "").slice(0, 30));
+  const invited = $("#wl-invited", root);
+  if (invited && (invitedBy || ref)) {
+    invited.textContent = invitedBy ? `💌 @${invitedBy} saved you a seat` : "💌 A friend saved you a seat";
+    invited.hidden = false;
+  }
+
   if (!SITE_CONFIG.waitlistEndpoint) {
     const note = $("#wl-demo", root);
     if (note) note.hidden = false;
@@ -390,11 +403,17 @@ async function submitTo(endpoint, data, storageKey, { allowDemo = true } = {}) {
     submit.disabled = true;
     submit.textContent = "Joining…";
     try {
+      const code = await referralCode(state.email);
       await submitTo(
         SITE_CONFIG.waitlistEndpoint,
-        { email: state.email, device: state.device, app: "EpistleChat", _subject: "EpistleChat waitlist signup" },
+        {
+          email: state.email, device: state.device, app: "EpistleChat",
+          referral_code: code, referred_by: ref || undefined, invited_by: invitedBy || undefined,
+          _subject: "EpistleChat waitlist signup",
+        },
         "ss_waitlist"
       );
+      showReferral(root, code, ref);
       $("#wl-done-email", root).textContent = state.email;
       const doneText = $("#wl-done-text", root);
       if (doneText) doneText.textContent = state.device === "android"
@@ -409,6 +428,190 @@ async function submitTo(endpoint, data, storageKey, { allowDemo = true } = {}) {
     }
   });
 })();
+
+/* ---------- Waitlist referrals: link, friend counter, share card ---------- */
+const REFERRAL_GOAL = 3;
+const referralLink = (code) => `https://silentstudios.online/epistlechat?ref=${code}`;
+
+// Same email always gets the same 8-character code, so re-joining shows the same link.
+async function referralCode(email) {
+  const input = `epistlechat:${email.trim().toLowerCase()}`;
+  try {
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+    return [...new Uint8Array(digest)].slice(0, 4).map((b) => b.toString(16).padStart(2, "0")).join("");
+  } catch (_) {
+    // crypto.subtle needs HTTPS; plain-http previews fall back to FNV-1a.
+    let h = 0x811c9dc5;
+    for (const ch of input) h = Math.imul(h ^ ch.charCodeAt(0), 0x01000193) >>> 0;
+    return h.toString(16).padStart(8, "0");
+  }
+}
+
+function showReferral(root, code, ref) {
+  const url = referralLink(code);
+  const shareText = "I just saved my seat for EpistleChat 💌 private chats and beautiful letters. Join me on the waitlist:";
+  const note = $("#wl-share-note", root);
+  const say = (msg) => { if (note) note.textContent = msg; };
+  $("#wl-ref-url", root).value = url;
+
+  const copy = $("#wl-ref-copy", root);
+  copy.onclick = async () => {
+    try { await navigator.clipboard.writeText(url); }
+    catch (_) { const i = $("#wl-ref-url", root); i.select(); document.execCommand("copy"); }
+    copy.textContent = "Copied!";
+    setTimeout(() => { copy.textContent = "Copy"; }, 1600);
+  };
+
+  const open = (href) => window.open(href, "_blank", "noopener");
+  $$("[data-share]", root).forEach((b) => (b.onclick = async () => {
+    const kind = b.dataset.share;
+    if (kind === "x") return open(`https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`);
+    if (kind === "whatsapp") return open(`https://wa.me/?text=${encodeURIComponent(`${shareText} ${url}`)}`);
+    if (kind === "imessage") { location.href = `sms:?&body=${encodeURIComponent(`${shareText} ${url}`)}`; return; }
+
+    // Instagram Stories: hand the 9:16 card to the share sheet; otherwise download it.
+    const blob = await shareCard(code);
+    if (!blob) return say("Couldn't draw the card in this browser. Copy the link instead.");
+    const file = new File([blob], "epistlechat-invite.png", { type: "image/png" });
+    if (navigator.canShare?.({ files: [file] })) {
+      try { await navigator.share({ files: [file], text: `${shareText} ${url}` }); say("Pick Instagram → Story, then add a link sticker with your link."); }
+      catch (_) { /* dismissed */ }
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = file.name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    say("Card saved! Post it to your Instagram Story and add a link sticker with your link.");
+  }));
+
+  // Friend counter (only when the referral Worker is connected).
+  const endpoint = SITE_CONFIG.referralEndpoint.replace(/\/+$/, "");
+  if (!endpoint) return;
+  const meter = $("#wl-ref-meter", root);
+  const render = (count) => {
+    meter.hidden = false;
+    $$(".wl-ref-dots i", meter).forEach((d, i) => d.classList.toggle("on", i < count));
+    $("#wl-ref-count", meter).textContent = count >= REFERRAL_GOAL
+      ? "🎉 Bouquet unlocked: you're skipping the line!"
+      : `${count} of ${REFERRAL_GOAL} friends joined`;
+  };
+  const refresh = () => fetch(`${endpoint}/referral/${code}`)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => d && render(Math.min(Number(d.count) || 0, REFERRAL_GOAL)))
+    .catch(() => {});
+  fetch(`${endpoint}/referral`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, ref: ref || undefined }),
+  }).catch(() => {}).finally(refresh);
+  // Re-check when they come back from sharing.
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+}
+
+// 1080×1920 Instagram-Story card: a wax-sealed envelope and the invite link.
+function shareCard(code) {
+  const W = 1080, H = 1920;
+  const c = document.createElement("canvas");
+  c.width = W; c.height = H;
+  const ctx = c.getContext("2d");
+  if (!ctx) return Promise.resolve(null);
+  const serif = 'ui-serif, "New York", Georgia, serif';
+  const sans = '-apple-system, "SF Pro Display", "Inter", system-ui, sans-serif';
+
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, "#4a1128"); bg.addColorStop(1, "#1f0711");
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  const glow = ctx.createRadialGradient(W / 2, 860, 40, W / 2, 860, 720);
+  glow.addColorStop(0, "rgba(245,198,209,0.32)"); glow.addColorStop(1, "rgba(245,198,209,0)");
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+  // Scattered petals
+  const petals = ["#f5c6d1", "#ec9fb2", "#a8ecf0", "#fbeef1"];
+  let seed = parseInt(code, 16) || 7;
+  const rnd = () => ((seed = Math.imul(seed ^ (seed >>> 15), 2246822519) >>> 0) % 1000) / 1000;
+  for (let i = 0; i < 26; i++) {
+    ctx.save();
+    ctx.translate(rnd() * W, 280 + rnd() * 1360);
+    ctx.rotate(rnd() * Math.PI);
+    ctx.globalAlpha = 0.35 + rnd() * 0.4;
+    ctx.fillStyle = petals[i % petals.length];
+    ctx.beginPath(); ctx.ellipse(0, 0, 10 + rnd() * 12, 5 + rnd() * 5, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+  ctx.globalAlpha = 1;
+  ctx.textAlign = "center";
+
+  ctx.fillStyle = "rgba(251,238,241,0.7)";
+  ctx.font = `600 40px ${sans}`;
+  ctx.fillText("EpistleChat", W / 2, 330);
+
+  // Envelope
+  ctx.save();
+  ctx.translate(W / 2, 830);
+  ctx.rotate(-0.05);
+  const ew = 720, eh = 470;
+  ctx.shadowColor = "rgba(0,0,0,0.45)"; ctx.shadowBlur = 60; ctx.shadowOffsetY = 24;
+  ctx.fillStyle = "#fbf3e6";
+  roundRect(ctx, -ew / 2, -eh / 2, ew, eh, 26); ctx.fill();
+  ctx.shadowColor = "transparent";
+  ctx.strokeStyle = "rgba(140,42,77,0.22)"; ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(-ew / 2 + 14, -eh / 2 + 14); ctx.lineTo(0, 40); ctx.lineTo(ew / 2 - 14, -eh / 2 + 14);
+  ctx.moveTo(-ew / 2 + 14, eh / 2 - 14); ctx.lineTo(-90, 10);
+  ctx.moveTo(ew / 2 - 14, eh / 2 - 14); ctx.lineTo(90, 10);
+  ctx.stroke();
+  // Wax seal
+  const seal = ctx.createRadialGradient(-18, 20, 10, 0, 40, 92);
+  seal.addColorStop(0, "#c2355f"); seal.addColorStop(1, "#7a1734");
+  ctx.fillStyle = seal;
+  ctx.beginPath();
+  for (let i = 0; i <= 24; i++) {
+    const a = (i / 24) * Math.PI * 2, r = 86 + (i % 2 ? 6 : -2);
+    ctx.lineTo(Math.cos(a) * r, 40 + Math.sin(a) * r);
+  }
+  ctx.fill();
+  ctx.fillStyle = "rgba(255,220,228,0.9)";
+  ctx.beginPath();
+  ctx.moveTo(0, 82);
+  ctx.bezierCurveTo(-70, 30, -38, -18, 0, 14);
+  ctx.bezierCurveTo(38, -18, 70, 30, 0, 82);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.fillStyle = "#fbeef1";
+  ctx.font = `600 84px ${serif}`;
+  ctx.fillText("I saved my seat", W / 2, 1230);
+  ctx.font = `italic 400 52px ${serif}`;
+  ctx.fillStyle = "rgba(251,238,241,0.78)";
+  ctx.fillText("Private chats. Beautiful letters.", W / 2, 1310);
+
+  ctx.font = `500 40px ${sans}`;
+  ctx.fillStyle = "rgba(251,238,241,0.62)";
+  ctx.fillText("Join me on the waitlist 💐", W / 2, 1450);
+
+  // Link pill
+  const link = referralLink(code).replace("https://", "");
+  ctx.font = `600 36px ${sans}`;
+  const pw = Math.min(W - 120, ctx.measureText(link).width + 90);
+  ctx.fillStyle = "#f5c6d1";
+  roundRect(ctx, (W - pw) / 2, 1500, pw, 96, 48); ctx.fill();
+  ctx.fillStyle = "#1f0711";
+  ctx.fillText(link, W / 2, 1561, W - 160);
+
+  return new Promise((res) => c.toBlob(res, "image/png"));
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
 
 /* ---------- Confetti (tiny, dependency-free) ---------- */
 function confetti() {

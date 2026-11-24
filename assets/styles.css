@@ -903,6 +903,47 @@ section { position: relative; }
 .link-btn { background: none; border: 0; color: var(--text-muted); cursor: pointer; font-size: 14px; padding: 8px 0; }
 .link-btn:hover { color: var(--text); }
 
+/* Post-signup referral loop */
+.wl-invited {
+  justify-self: start;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgba(168,236,240,0.1); border: 1px solid rgba(168,236,240,0.3);
+  color: var(--cyan-300) !important; font-size: 13px; font-weight: 600;
+}
+.wl-invited[hidden] { display: none; }
+.wl-referral {
+  display: grid; gap: 12px;
+  padding: 18px; border-radius: 16px;
+  border: 1.5px dashed var(--border-strong);
+  background: rgba(245,198,209,0.05);
+}
+.wl-referral .wl-ref-title { color: var(--text); font-size: 15px; line-height: 1.4; }
+.wl-ref-meter { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-muted); }
+.wl-ref-meter[hidden] { display: none; }
+.wl-ref-dots { display: flex; gap: 6px; }
+.wl-ref-dots i {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease-spring);
+}
+.wl-ref-dots i.on { background: var(--blush-300); border-color: var(--blush-300); transform: scale(1.08); }
+.wl-ref-link { display: flex; gap: 8px; }
+.wl-ref-link .input { flex: 1; min-width: 0; font-size: 14px; }
+.wl-ref-link .btn-chunky { height: auto; min-height: 44px; }
+.wl-share { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 420px) { .wl-share { grid-template-columns: repeat(2, 1fr); } }
+.wl-share-btn {
+  display: grid; justify-items: center; gap: 4px;
+  padding: 10px 6px; border-radius: 12px;
+  border: 1.5px solid var(--border-strong); border-bottom-width: 3px;
+  background: rgba(0,0,0,0.18); color: var(--text);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: transform 0.12s, background 0.2s;
+}
+.wl-share-btn span { font-size: 20px; line-height: 1; }
+.wl-share-btn:hover { background: rgba(255,255,255,0.05); }
+.wl-share-btn:active { transform: translateY(2px); }
+
 .success-mark {
   width: 72px; height: 72px; border-radius: 50%;
   display: grid; place-items: center;

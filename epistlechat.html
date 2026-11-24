@@ -46,6 +46,7 @@
 
             <!-- Step 1: email -->
             <form class="wl-step active" id="wl-step-email" novalidate>
+              <p class="wl-invited" id="wl-invited" hidden></p>
               <h3 data-c="epistlechat.waitlist_title">Be first in line ✉️</h3>
               <p data-c="epistlechat.waitlist_text">Drop your email and we'll ping you the moment EpistleChat is ready to pre-download on the App Store.</p>
               <div class="field">
@@ -87,6 +88,26 @@
               <div class="success-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
               <h3>You're on the list!</h3>
               <p>We'll email <b id="wl-done-email"></b> <span id="wl-done-text">as soon as EpistleChat is available to pre-download on the App Store.</span></p>
+
+              <div class="wl-referral">
+                <p class="wl-ref-title">💐 Invite 3 friends to unlock the <b>Founding Member bouquet</b> &amp; skip the line</p>
+                <div class="wl-ref-meter" id="wl-ref-meter" hidden>
+                  <div class="wl-ref-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                  <span id="wl-ref-count">0 of 3 friends joined</span>
+                </div>
+                <div class="wl-ref-link">
+                  <input class="input" id="wl-ref-url" type="text" readonly aria-label="Your referral link" />
+                  <button class="btn btn-chunky btn-sm" id="wl-ref-copy" type="button">Copy</button>
+                </div>
+                <div class="wl-share" role="group" aria-label="Share your invite">
+                  <button class="wl-share-btn" type="button" data-share="stories"><span aria-hidden="true">📸</span>Stories</button>
+                  <button class="wl-share-btn" type="button" data-share="x"><span aria-hidden="true">𝕏</span>Post</button>
+                  <button class="wl-share-btn" type="button" data-share="imessage"><span aria-hidden="true">💬</span>iMessage</button>
+                  <button class="wl-share-btn" type="button" data-share="whatsapp"><span aria-hidden="true">🟢</span>WhatsApp</button>
+                </div>
+                <p class="form-note" id="wl-share-note" role="status"></p>
+              </div>
+
               <a class="btn btn-ghost btn-sm" href="index.html" style="justify-self:start">Back to SilentStudios</a>
             </div>
 
