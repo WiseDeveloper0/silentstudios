@@ -1,4 +1,4 @@
-# SilentStudios website
+# Silent Studios Entertainment website
 
 Static site, no build step. Serve the folder (e.g. `python3 -m http.server`) to preview.
 Hosted on Cloudflare Pages from the `main` branch.

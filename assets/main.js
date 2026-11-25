@@ -315,7 +315,7 @@ async function submitTo(endpoint, data, storageKey, { allowDemo = true } = {}) {
     try {
       await submitTo(
         SITE_CONFIG.contactEndpoint,
-        { ...data, _subject: `SilentStudios website: ${data.topic || "General"} from ${data.name.trim()}`, _replyto: data.email, _template: "table" },
+        { ...data, _subject: `Silent Studios Entertainment website: ${data.topic || "General"} from ${data.name.trim()}`, _replyto: data.email, _template: "table" },
         "ss_contact",
         { allowDemo: false }
       );

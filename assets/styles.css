@@ -789,7 +789,7 @@ section { position: relative; }
 .footer-word {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(32px, 9.4vw, 140px);
+  font-size: clamp(30px, 10vw, 150px);
   letter-spacing: -0.02em;
   line-height: 0.8;
   margin: 0;
@@ -1942,3 +1942,23 @@ section { position: relative; }
 .x-dec .df { text-align: right; font-size: 1.2em; font-weight: 600; color: #30B0C7; }
 .x-meta { display: inline-flex; align-items: center; gap: 0.25em; font-size: 1.1em; color: rgba(60,60,67,0.6); }
 .x-meta .ticks { width: 1.4em; }
+
+
+/* ---------- Brand: Silent Studios Entertainment ---------- */
+/* Header/footer logo: SILENT STUDIOS with a small, wide-spaced ENTERTAINMENT underneath. */
+.logo-name { display: grid; line-height: 1; }
+.logo-name small {
+  margin-top: 4px;
+  font-size: 0.5em; font-weight: 600; letter-spacing: 0.62em;
+  color: var(--text-muted);
+}
+/* Big footer wordmark, with ENTERTAINMENT spread to exactly its width underneath. */
+.footer-mark { display: inline-grid; max-width: 100%; }
+.footer-ent {
+  display: flex; justify-content: space-between;
+  margin: 0.9em 0 0; padding: 0 0.1em;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(11px, 1.55vw, 22px);
+  color: rgba(245,198,209,0.32);
+  user-select: none;
+}
