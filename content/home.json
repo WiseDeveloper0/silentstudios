@@ -40,7 +40,8 @@
       "label": "Ads, ever"
     },
     {
-      "number": "∞"
+      "number": "0",
+      "label": "Data sold"
     }
   ],
   "env_eyebrow": "EpistleChat",
