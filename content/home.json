@@ -19,7 +19,7 @@
     },
     {
       "title": "Privacy by default",
-      "text": "Your conversations are yours. We collect what's needed to make the app work and nothing we'd be uncomfortable explaining."
+      "text": "Your data are yours. We collect what's needed to make the app work and nothing we'd be uncomfortable explaining."
     },
     {
       "title": "Built in the open",
@@ -40,15 +40,14 @@
       "label": "Ads, ever"
     },
     {
-      "number": "∞",
-      "label": "Cups of coffee"
+      "number": "∞"
     }
   ],
-  "contact_intro": "Press, partnerships, feedback or just a kind word. We read everything.",
   "env_eyebrow": "EpistleChat",
   "env_title_1": "Some words deserve",
   "env_title_2": "more than a bubble.",
   "letter_text": "Dear you, thank you for every late-night call, every terrible joke and every time you showed up. Some words deserve more than a text bubble, so here they are, sealed in wax.",
   "letter_sign": "With love, always",
-  "env_cta": "Write your first letter"
+  "env_cta": "Write your first letter",
+  "contact_intro": "Press, partnerships, feedback or just a kind word. We read everything."
 }
